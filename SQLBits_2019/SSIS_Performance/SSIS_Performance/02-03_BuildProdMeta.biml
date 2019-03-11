@@ -1,0 +1,12 @@
+<#@ template language="VB" tier="3" optionexplicit="False" #>
+<Biml xmlns="http://schemas.varigence.com/biml.xsd">
+    <Tables>
+        <# for each tbl in Rootnode.Tables  #>
+           	<Table Name="<#=tbl.Name#>" SchemaName="BimlDemo_SSIS_Performance.PROD">
+			 			<Columns><#= tbl.columns.getbiml #></Columns>
+		
+		</Table>
+        <# 
+        next #>
+    </Tables>
+</Biml>

@@ -1,0 +1,14 @@
+<#@ template language="VB" designerbimlpath="Biml/Packages/Package/Tasks" #>
+<#@ property name="tbl" type="AstTableNode" #>
+<#@ property name="LoadedTables" type="List (of String)" #>
+<# if not loadedtables is nothing then LoadedTables.add (tbl.name) #>
+<Dataflow Name="Load <#=tbl.Name #>">
+    <Transformations>
+        <OleDbSource Name="Get Rows" ConnectionName="AW_DW">
+            <DirectInput>Select <#= tbl.GetColumnList() #> from <#=tbl.SchemaQualifiedName#></DirectInput>
+        </OleDbSource>
+        <OleDbDestination Name="Set Rows" ConnectionName="AW_DW_SalesOnly" KeepIdentity="true">
+            <TableOutput TableName="<#=tbl.ScopedName#>" />
+        </OleDbDestination>
+    </Transformations>
+</Dataflow>

@@ -1,0 +1,13 @@
+<Biml xmlns="http://schemas.varigence.com/biml.xsd">
+    <Connections>
+        <Connection Name="AW_DW" ConnectionString="Provider=SQLNCLI11;Data Source=localhost;Integrated Security=SSPI;Initial Catalog=AdventureWorksDW2017" />
+        <Connection Name="AW_DW_SalesOnly" ConnectionString="Provider=SQLNCLI11;Data Source=localhost;Integrated Security=SSPI;Initial Catalog=AdventureWorksDW2017_Target" />
+        
+    </Connections>
+    <Databases>
+        <Database Name="AW_DW_SalesOnly" ConnectionName="AW_DW_SalesOnly"></Database>
+    </Databases>
+    <Schemas>
+        <Schema Name="dbo" DatabaseName="AW_DW_SalesOnly"></Schema>
+    </Schemas>
+</Biml>

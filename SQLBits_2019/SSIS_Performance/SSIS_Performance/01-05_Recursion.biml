@@ -1,0 +1,7 @@
+<#@ template language="VB" designerbimlpath="Biml/Packages/Package/Tasks" #>
+<#@ property name="tbl" type="AstTableNode" #>
+<#@ property name="LoadedTables" type="List (of String)" #>
+<#= CallBimlScript("01-06_Dataflow.biml",tbl,LoadedTables) #>
+<# for each t as asttablenode in rootnode.tables.where(function(r) r.columns.OfType(Of AstTableColumnTableReferenceNode)().Count+r.columns.OfType(Of AstMultipleColumnTableReferenceNode)().Count  =1).where(function(e) e.columns.OfType(Of AstTableColumnTableReferenceNode)().first.foreigntable.name  = tbl.name )  #>
+    <#= CallBimlScript("01-05_Recursion.biml",t,LoadedTables) #>
+<#next #>

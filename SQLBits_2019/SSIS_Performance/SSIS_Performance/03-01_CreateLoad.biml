@@ -1,0 +1,30 @@
+<#@ template tier="4" language="VB" optionexplicit="False" #>
+<#@ code file="02-BimlFunctions.vb" #>
+<#@ import namespace="System.Data.SqlClient" #>
+<# MaxContainers = 8
+Dim conn as new SqlConnection("Data source=localhost; Database=BimlDemo_SSIS_Performance; Integrated Security=SSPI")
+Dim cmd = new SqlCommand("exec [dbo].[SP_SetContainers] "  & maxcontainers, conn)
+conn.Open()
+cmd.ExecuteNonQuery()
+conn.Close() #>
+<Biml xmlns="http://schemas.varigence.com/biml.xsd">
+    <Packages>
+        <Package Name="03-01_Load_Containers" ConstraintMode="Parallel"  ProtectionLevel="EncryptSensitiveWithUserKey">
+            <Tasks>
+                <# for Container = 1 to MaxContainers
+                if BF.GetDT(RootNode.Connections("Target"),"select * from meta.tables where active = 1 and container = " & container).Rows.Count > 0 then #>
+                <Container Name="Load Container <#=Container #>" ConstraintMode="Linear"><Tasks>
+                <# for each row in BF.GetDT(RootNode.Connections("Target"),"select * from meta.tables where active = 1 and container = " & container).Rows  #>
+                <Container Name="Load <#= row("RecId")#> - <#= Row("TableName")#> - <#= Row("Pattern") #>" ConstraintMode="Linear">
+                    <Tasks>
+                           <#= CallBimlScript("02-07_Dataflow.biml","PROD",row("Tablename"),row("Pattern"),row("Parameters")) #>
+                     </Tasks>
+                </Container>
+                 <# next #>
+                 </Tasks></Container>
+                <# end if
+                next #>
+             </Tasks>
+        </Package>
+    </Packages>
+</Biml>

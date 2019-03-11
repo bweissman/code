@@ -1,0 +1,18 @@
+<#@ template tier="4" language="VB" optionexplicit="False" #>
+<#@ code file="02-BimlFunctions.vb" #>
+
+<Biml xmlns="http://schemas.varigence.com/biml.xsd">
+    <Packages>
+        <Package Name="02-03_Load" ConstraintMode="Parallel"  ProtectionLevel="EncryptSensitiveWithUserKey">
+            <Tasks>
+                <# for each row in BF.GetDT(RootNode.Connections("Target"),"select * from meta.tables where active = 1").Rows  #>
+                <Container Name="Load <#= row("RecId")#> - <#= Row("TableName")#> - <#= Row("Pattern") #>" ConstraintMode="Linear">
+                    <Tasks>
+                           <#= CallBimlScript("02-07_Dataflow.biml","PROD",row("Tablename"),row("Pattern"),row("Parameters")) #>
+                     </Tasks>
+                </Container>
+                 <# next #>
+             </Tasks>
+        </Package>
+    </Packages>
+</Biml>

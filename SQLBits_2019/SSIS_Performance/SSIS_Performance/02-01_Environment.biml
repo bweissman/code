@@ -1,0 +1,13 @@
+<Biml xmlns="http://schemas.varigence.com/biml.xsd">
+    <Connections>
+        <Connection Name="Source" ConnectionString="Provider=SQLNCLI11;Data Source=localhost;Integrated Security=SSPI;Initial Catalog=AX2012" />
+        <Connection Name="Target" ConnectionString="Provider=SQLNCLI11;Data Source=localhost;Integrated Security=SSPI;Initial Catalog=BimlDemo_SSIS_Performance" />
+    </Connections>
+    <Databases>
+        <Database Name="BimlDemo_SSIS_Performance" ConnectionName="Target"></Database>
+    </Databases>
+    <Schemas>
+        <Schema Name="TST" DatabaseName="BimlDemo_SSIS_Performance"></Schema>
+        <Schema Name="PROD" DatabaseName="BimlDemo_SSIS_Performance"></Schema>
+    </Schemas>
+</Biml>

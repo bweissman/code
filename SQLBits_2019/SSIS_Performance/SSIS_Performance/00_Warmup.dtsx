@@ -1,0 +1,1067 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="3/1/2019 11:18:12 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BWDemo"
+  DTS:CreatorName="bweissman"
+  DTS:DTSID="{B3F069F5-3280-4EDF-BA4C-6A33C9A15EBC}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="14.0.3002.107"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="00_Warmup"
+  DTS:VersionBuild="1"
+  DTS:VersionGUID="{5DC2A877-F57F-44BF-9B1C-8BC941E2DFB3}"
+  DTS:VersionMajor="0">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[AW]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{E464393F-B1E8-43FD-8244-6C565CA615B4}"
+      DTS:ObjectName="AW">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="data source=localhost;initial catalog=AdventureWorks2017;provider=SQLNCLI11;integrated security=SSPI;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[AW_TMP]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{FB73627C-FF08-4FD1-AAD4-9E46EC022786}"
+      DTS:ObjectName="AW_TMP">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="data source=localhost;initial catalog=AdventureWorks2017_TMP;provider=SQLNCLI11;integrated security=SSPI;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Option 1 - Takes ~ 60 Seconds"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:DTSID="{DA2CD56B-01B4-4CD5-9DE5-FB98C5FF7DB7}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Option 1 - Takes ~ 60 Seconds">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:DTSID="{CBA9F6E2-D13F-41A0-87A0-489D2396BF7C}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Load ProductPhoto"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              BLOBTempStoragePath=""
+              bufferTempStoragePath=""
+              version="1">
+              <components>
+                <component
+                  refId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                  name="Get Rows"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset"></property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">Select top 25000 a.* from Production.ProductPhoto a
+CROSS JOIN [Person].[Address]</property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">2</property>
+                    <property
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[AW]"
+                      connectionManagerRefId="Package.ConnectionManagers[AW]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows.Outputs[Output]"
+                      name="Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].Columns[ProductPhotoID]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].ExternalColumns[ProductPhotoID]"
+                          lineageId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].Columns[ProductPhotoID]"
+                          name="ProductPhotoID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].Columns[ThumbNailPhoto]"
+                          dataType="image"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].ExternalColumns[ThumbNailPhoto]"
+                          lineageId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].Columns[ThumbNailPhoto]"
+                          name="ThumbNailPhoto"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].Columns[ThumbnailPhotoFileName]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].ExternalColumns[ThumbnailPhotoFileName]"
+                          length="50"
+                          lineageId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].Columns[ThumbnailPhotoFileName]"
+                          name="ThumbnailPhotoFileName"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].Columns[LargePhoto]"
+                          dataType="image"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].ExternalColumns[LargePhoto]"
+                          lineageId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].Columns[LargePhoto]"
+                          name="LargePhoto"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].Columns[LargePhotoFileName]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].ExternalColumns[LargePhotoFileName]"
+                          length="50"
+                          lineageId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].Columns[LargePhotoFileName]"
+                          name="LargePhotoFileName"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].Columns[ModifiedDate]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].ExternalColumns[ModifiedDate]"
+                          lineageId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].Columns[ModifiedDate]"
+                          name="ModifiedDate"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].ExternalColumns[ProductPhotoID]"
+                          dataType="i4"
+                          name="ProductPhotoID" />
+                        <externalMetadataColumn
+                          refId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].ExternalColumns[ThumbNailPhoto]"
+                          dataType="image"
+                          name="ThumbNailPhoto" />
+                        <externalMetadataColumn
+                          refId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].ExternalColumns[ThumbnailPhotoFileName]"
+                          dataType="wstr"
+                          length="50"
+                          name="ThumbnailPhotoFileName" />
+                        <externalMetadataColumn
+                          refId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].ExternalColumns[LargePhoto]"
+                          dataType="image"
+                          name="LargePhoto" />
+                        <externalMetadataColumn
+                          refId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].ExternalColumns[LargePhotoFileName]"
+                          dataType="wstr"
+                          length="50"
+                          name="LargePhotoFileName" />
+                        <externalMetadataColumn
+                          refId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].ExternalColumns[ModifiedDate]"
+                          dataType="dbTimeStamp"
+                          name="ModifiedDate" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows.Outputs[Error]"
+                      isErrorOut="true"
+                      name="Error">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows.Outputs[Error].Columns[ProductPhotoID]"
+                          dataType="i4"
+                          lineageId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows.Outputs[Error].Columns[ProductPhotoID]"
+                          name="ProductPhotoID" />
+                        <outputColumn
+                          refId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows.Outputs[Error].Columns[ThumbNailPhoto]"
+                          dataType="image"
+                          lineageId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows.Outputs[Error].Columns[ThumbNailPhoto]"
+                          name="ThumbNailPhoto" />
+                        <outputColumn
+                          refId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows.Outputs[Error].Columns[ThumbnailPhotoFileName]"
+                          dataType="wstr"
+                          length="50"
+                          lineageId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows.Outputs[Error].Columns[ThumbnailPhotoFileName]"
+                          name="ThumbnailPhotoFileName" />
+                        <outputColumn
+                          refId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows.Outputs[Error].Columns[LargePhoto]"
+                          dataType="image"
+                          lineageId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows.Outputs[Error].Columns[LargePhoto]"
+                          name="LargePhoto" />
+                        <outputColumn
+                          refId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows.Outputs[Error].Columns[LargePhotoFileName]"
+                          dataType="wstr"
+                          length="50"
+                          lineageId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows.Outputs[Error].Columns[LargePhotoFileName]"
+                          name="LargePhotoFileName" />
+                        <outputColumn
+                          refId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows.Outputs[Error].Columns[ModifiedDate]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows.Outputs[Error].Columns[ModifiedDate]"
+                          name="ModifiedDate" />
+                        <outputColumn
+                          refId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows.Outputs[Error].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows.Outputs[Error].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows.Outputs[Error].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows.Outputs[Error].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Set Rows"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  name="Set Rows"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[ProductPhoto]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">true</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Set Rows.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[AW_TMP]"
+                      connectionManagerRefId="Package.ConnectionManagers[AW_TMP]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Set Rows.Inputs[Get Rows_Output_Set Rows]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="Get Rows_Output_Set Rows">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Set Rows.Inputs[Get Rows_Output_Set Rows].Columns[ProductPhotoID]"
+                          cachedDataType="i4"
+                          cachedName="ProductPhotoID"
+                          externalMetadataColumnId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Set Rows.Inputs[Get Rows_Output_Set Rows].ExternalColumns[ProductPhotoID]"
+                          lineageId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].Columns[ProductPhotoID]" />
+                        <inputColumn
+                          refId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Set Rows.Inputs[Get Rows_Output_Set Rows].Columns[ThumbNailPhoto]"
+                          cachedDataType="image"
+                          cachedName="ThumbNailPhoto"
+                          externalMetadataColumnId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Set Rows.Inputs[Get Rows_Output_Set Rows].ExternalColumns[ThumbNailPhoto]"
+                          lineageId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].Columns[ThumbNailPhoto]" />
+                        <inputColumn
+                          refId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Set Rows.Inputs[Get Rows_Output_Set Rows].Columns[ThumbnailPhotoFileName]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="ThumbnailPhotoFileName"
+                          externalMetadataColumnId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Set Rows.Inputs[Get Rows_Output_Set Rows].ExternalColumns[ThumbnailPhotoFileName]"
+                          lineageId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].Columns[ThumbnailPhotoFileName]" />
+                        <inputColumn
+                          refId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Set Rows.Inputs[Get Rows_Output_Set Rows].Columns[LargePhoto]"
+                          cachedDataType="image"
+                          cachedName="LargePhoto"
+                          externalMetadataColumnId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Set Rows.Inputs[Get Rows_Output_Set Rows].ExternalColumns[LargePhoto]"
+                          lineageId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].Columns[LargePhoto]" />
+                        <inputColumn
+                          refId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Set Rows.Inputs[Get Rows_Output_Set Rows].Columns[LargePhotoFileName]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="LargePhotoFileName"
+                          externalMetadataColumnId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Set Rows.Inputs[Get Rows_Output_Set Rows].ExternalColumns[LargePhotoFileName]"
+                          lineageId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].Columns[LargePhotoFileName]" />
+                        <inputColumn
+                          refId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Set Rows.Inputs[Get Rows_Output_Set Rows].Columns[ModifiedDate]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="ModifiedDate"
+                          externalMetadataColumnId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Set Rows.Inputs[Get Rows_Output_Set Rows].ExternalColumns[ModifiedDate]"
+                          lineageId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].Columns[ModifiedDate]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Set Rows.Inputs[Get Rows_Output_Set Rows].ExternalColumns[ProductPhotoID]"
+                          dataType="i4"
+                          name="ProductPhotoID" />
+                        <externalMetadataColumn
+                          refId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Set Rows.Inputs[Get Rows_Output_Set Rows].ExternalColumns[ThumbNailPhoto]"
+                          dataType="image"
+                          name="ThumbNailPhoto" />
+                        <externalMetadataColumn
+                          refId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Set Rows.Inputs[Get Rows_Output_Set Rows].ExternalColumns[ThumbnailPhotoFileName]"
+                          dataType="wstr"
+                          length="50"
+                          name="ThumbnailPhotoFileName" />
+                        <externalMetadataColumn
+                          refId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Set Rows.Inputs[Get Rows_Output_Set Rows].ExternalColumns[LargePhoto]"
+                          dataType="image"
+                          name="LargePhoto" />
+                        <externalMetadataColumn
+                          refId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Set Rows.Inputs[Get Rows_Output_Set Rows].ExternalColumns[LargePhotoFileName]"
+                          dataType="wstr"
+                          length="50"
+                          name="LargePhotoFileName" />
+                        <externalMetadataColumn
+                          refId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Set Rows.Inputs[Get Rows_Output_Set Rows].ExternalColumns[ModifiedDate]"
+                          dataType="dbTimeStamp"
+                          name="ModifiedDate" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Set Rows.Outputs[Error]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Error"
+                      synchronousInputId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Set Rows.Inputs[Get Rows_Output_Set Rows]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Set Rows.Outputs[Error].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Set Rows.Outputs[Error].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Set Rows.Outputs[Error].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Set Rows.Outputs[Error].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto.Paths[Get Rows_Output_Set Rows]"
+                  endId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Set Rows.Inputs[Get Rows_Output_Set Rows]"
+                  name="Get Rows_Output_Set Rows"
+                  startId="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows.Outputs[Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Option 1 - Takes ~ 60 Seconds\TRUNCATE"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:DTSID="{C1085336-2B7D-4A8E-9FF8-D75A433CA1BB}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="TRUNCATE"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{FB73627C-FF08-4FD1-AAD4-9E46EC022786}"
+              SQLTask:SqlStatementSource="&#xA;                                      TRUNCATE TABLE ProductPhoto&#xA;                 &#xA;                    " xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Option 1 - Takes ~ 60 Seconds.PrecedenceConstraints[Constraint_TRUNCATE_To_Load ProductPhoto]"
+          DTS:CreationName=""
+          DTS:DTSID="{322BDD81-0350-4372-B473-3E372F7A0D62}"
+          DTS:From="Package\Option 1 - Takes ~ 60 Seconds\TRUNCATE"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint_TRUNCATE_To_Load ProductPhoto"
+          DTS:To="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Option 2 - Takes ~ 25 Seconds"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:DTSID="{E0B13FD5-B22C-4FB9-A29D-C64A18E37DE5}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Option 2 - Takes ~ 25 Seconds">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:DTSID="{698EA756-75C6-487A-954F-9F47835820AA}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Load ProductPhoto"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              BLOBTempStoragePath="E:\Temp"
+              bufferTempStoragePath="E:\Temp"
+              version="1">
+              <components>
+                <component
+                  refId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+                  name="Get Rows"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset"></property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">Select top 25000 a.* from Production.ProductPhoto a
+CROSS JOIN [Person].[Address]</property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">2</property>
+                    <property
+                      dataType="System.String"
+                      description="The mappings between the parameters in the SQL command and variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[AW]"
+                      connectionManagerRefId="Package.ConnectionManagers[AW]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows.Outputs[Output]"
+                      name="Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].Columns[ProductPhotoID]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].ExternalColumns[ProductPhotoID]"
+                          lineageId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].Columns[ProductPhotoID]"
+                          name="ProductPhotoID"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].Columns[ThumbNailPhoto]"
+                          dataType="image"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].ExternalColumns[ThumbNailPhoto]"
+                          lineageId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].Columns[ThumbNailPhoto]"
+                          name="ThumbNailPhoto"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].Columns[ThumbnailPhotoFileName]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].ExternalColumns[ThumbnailPhotoFileName]"
+                          length="50"
+                          lineageId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].Columns[ThumbnailPhotoFileName]"
+                          name="ThumbnailPhotoFileName"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].Columns[LargePhoto]"
+                          dataType="image"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].ExternalColumns[LargePhoto]"
+                          lineageId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].Columns[LargePhoto]"
+                          name="LargePhoto"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].Columns[LargePhotoFileName]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].ExternalColumns[LargePhotoFileName]"
+                          length="50"
+                          lineageId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].Columns[LargePhotoFileName]"
+                          name="LargePhotoFileName"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].Columns[ModifiedDate]"
+                          dataType="dbTimeStamp"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].ExternalColumns[ModifiedDate]"
+                          lineageId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].Columns[ModifiedDate]"
+                          name="ModifiedDate"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].ExternalColumns[ProductPhotoID]"
+                          dataType="i4"
+                          name="ProductPhotoID" />
+                        <externalMetadataColumn
+                          refId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].ExternalColumns[ThumbNailPhoto]"
+                          dataType="image"
+                          name="ThumbNailPhoto" />
+                        <externalMetadataColumn
+                          refId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].ExternalColumns[ThumbnailPhotoFileName]"
+                          dataType="wstr"
+                          length="50"
+                          name="ThumbnailPhotoFileName" />
+                        <externalMetadataColumn
+                          refId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].ExternalColumns[LargePhoto]"
+                          dataType="image"
+                          name="LargePhoto" />
+                        <externalMetadataColumn
+                          refId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].ExternalColumns[LargePhotoFileName]"
+                          dataType="wstr"
+                          length="50"
+                          name="LargePhotoFileName" />
+                        <externalMetadataColumn
+                          refId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].ExternalColumns[ModifiedDate]"
+                          dataType="dbTimeStamp"
+                          name="ModifiedDate" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows.Outputs[Error]"
+                      isErrorOut="true"
+                      name="Error">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows.Outputs[Error].Columns[ProductPhotoID]"
+                          dataType="i4"
+                          lineageId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows.Outputs[Error].Columns[ProductPhotoID]"
+                          name="ProductPhotoID" />
+                        <outputColumn
+                          refId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows.Outputs[Error].Columns[ThumbNailPhoto]"
+                          dataType="image"
+                          lineageId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows.Outputs[Error].Columns[ThumbNailPhoto]"
+                          name="ThumbNailPhoto" />
+                        <outputColumn
+                          refId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows.Outputs[Error].Columns[ThumbnailPhotoFileName]"
+                          dataType="wstr"
+                          length="50"
+                          lineageId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows.Outputs[Error].Columns[ThumbnailPhotoFileName]"
+                          name="ThumbnailPhotoFileName" />
+                        <outputColumn
+                          refId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows.Outputs[Error].Columns[LargePhoto]"
+                          dataType="image"
+                          lineageId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows.Outputs[Error].Columns[LargePhoto]"
+                          name="LargePhoto" />
+                        <outputColumn
+                          refId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows.Outputs[Error].Columns[LargePhotoFileName]"
+                          dataType="wstr"
+                          length="50"
+                          lineageId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows.Outputs[Error].Columns[LargePhotoFileName]"
+                          name="LargePhotoFileName" />
+                        <outputColumn
+                          refId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows.Outputs[Error].Columns[ModifiedDate]"
+                          dataType="dbTimeStamp"
+                          lineageId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows.Outputs[Error].Columns[ModifiedDate]"
+                          name="ModifiedDate" />
+                        <outputColumn
+                          refId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows.Outputs[Error].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows.Outputs[Error].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows.Outputs[Error].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows.Outputs[Error].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Set Rows"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  name="Set Rows"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[dbo].[ProductPhoto]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Set Rows.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[AW_TMP]"
+                      connectionManagerRefId="Package.ConnectionManagers[AW_TMP]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Set Rows.Inputs[Get Rows_Output_Set Rows]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="Get Rows_Output_Set Rows">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Set Rows.Inputs[Get Rows_Output_Set Rows].Columns[ProductPhotoID]"
+                          cachedDataType="i4"
+                          cachedName="ProductPhotoID"
+                          externalMetadataColumnId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Set Rows.Inputs[Get Rows_Output_Set Rows].ExternalColumns[ProductPhotoID]"
+                          lineageId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].Columns[ProductPhotoID]" />
+                        <inputColumn
+                          refId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Set Rows.Inputs[Get Rows_Output_Set Rows].Columns[ThumbNailPhoto]"
+                          cachedDataType="image"
+                          cachedName="ThumbNailPhoto"
+                          externalMetadataColumnId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Set Rows.Inputs[Get Rows_Output_Set Rows].ExternalColumns[ThumbNailPhoto]"
+                          lineageId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].Columns[ThumbNailPhoto]" />
+                        <inputColumn
+                          refId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Set Rows.Inputs[Get Rows_Output_Set Rows].Columns[ThumbnailPhotoFileName]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="ThumbnailPhotoFileName"
+                          externalMetadataColumnId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Set Rows.Inputs[Get Rows_Output_Set Rows].ExternalColumns[ThumbnailPhotoFileName]"
+                          lineageId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].Columns[ThumbnailPhotoFileName]" />
+                        <inputColumn
+                          refId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Set Rows.Inputs[Get Rows_Output_Set Rows].Columns[LargePhoto]"
+                          cachedDataType="image"
+                          cachedName="LargePhoto"
+                          externalMetadataColumnId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Set Rows.Inputs[Get Rows_Output_Set Rows].ExternalColumns[LargePhoto]"
+                          lineageId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].Columns[LargePhoto]" />
+                        <inputColumn
+                          refId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Set Rows.Inputs[Get Rows_Output_Set Rows].Columns[LargePhotoFileName]"
+                          cachedDataType="wstr"
+                          cachedLength="50"
+                          cachedName="LargePhotoFileName"
+                          externalMetadataColumnId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Set Rows.Inputs[Get Rows_Output_Set Rows].ExternalColumns[LargePhotoFileName]"
+                          lineageId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].Columns[LargePhotoFileName]" />
+                        <inputColumn
+                          refId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Set Rows.Inputs[Get Rows_Output_Set Rows].Columns[ModifiedDate]"
+                          cachedDataType="dbTimeStamp"
+                          cachedName="ModifiedDate"
+                          externalMetadataColumnId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Set Rows.Inputs[Get Rows_Output_Set Rows].ExternalColumns[ModifiedDate]"
+                          lineageId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows.Outputs[Output].Columns[ModifiedDate]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Set Rows.Inputs[Get Rows_Output_Set Rows].ExternalColumns[ProductPhotoID]"
+                          dataType="i4"
+                          name="ProductPhotoID" />
+                        <externalMetadataColumn
+                          refId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Set Rows.Inputs[Get Rows_Output_Set Rows].ExternalColumns[ThumbNailPhoto]"
+                          dataType="image"
+                          name="ThumbNailPhoto" />
+                        <externalMetadataColumn
+                          refId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Set Rows.Inputs[Get Rows_Output_Set Rows].ExternalColumns[ThumbnailPhotoFileName]"
+                          dataType="wstr"
+                          length="50"
+                          name="ThumbnailPhotoFileName" />
+                        <externalMetadataColumn
+                          refId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Set Rows.Inputs[Get Rows_Output_Set Rows].ExternalColumns[LargePhoto]"
+                          dataType="image"
+                          name="LargePhoto" />
+                        <externalMetadataColumn
+                          refId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Set Rows.Inputs[Get Rows_Output_Set Rows].ExternalColumns[LargePhotoFileName]"
+                          dataType="wstr"
+                          length="50"
+                          name="LargePhotoFileName" />
+                        <externalMetadataColumn
+                          refId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Set Rows.Inputs[Get Rows_Output_Set Rows].ExternalColumns[ModifiedDate]"
+                          dataType="dbTimeStamp"
+                          name="ModifiedDate" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Set Rows.Outputs[Error]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Error"
+                      synchronousInputId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Set Rows.Inputs[Get Rows_Output_Set Rows]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Set Rows.Outputs[Error].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Set Rows.Outputs[Error].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Set Rows.Outputs[Error].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Set Rows.Outputs[Error].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto.Paths[Get Rows_Output_Set Rows]"
+                  endId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Set Rows.Inputs[Get Rows_Output_Set Rows]"
+                  name="Get Rows_Output_Set Rows"
+                  startId="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows.Outputs[Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Option 2 - Takes ~ 25 Seconds\TRUNCATE"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:DTSID="{1EC3939D-D00F-43E8-BDB3-19130F81BA84}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="TRUNCATE"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{FB73627C-FF08-4FD1-AAD4-9E46EC022786}"
+              SQLTask:SqlStatementSource="&#xA;                                      TRUNCATE TABLE ProductPhoto&#xA;                 &#xA;                    " xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Option 2 - Takes ~ 25 Seconds.PrecedenceConstraints[Constraint_TRUNCATE_To_Load ProductPhoto]"
+          DTS:CreationName=""
+          DTS:DTSID="{46EFC281-51F1-4030-9ED2-90709AD5AFE1}"
+          DTS:From="Package\Option 2 - Takes ~ 25 Seconds\TRUNCATE"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint_TRUNCATE_To_Load ProductPhoto"
+          DTS:To="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="168,42"
+          Id="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto"
+          TopLeft="5.50000000000001,107.5" />
+        <NodeLayout
+          Size="131,42"
+          Id="Package\Option 1 - Takes ~ 60 Seconds\TRUNCATE"
+          TopLeft="24,5.5" />
+        <EdgeLayout
+          Id="Package\Option 1 - Takes ~ 60 Seconds.PrecedenceConstraints[Constraint_TRUNCATE_To_Load ProductPhoto]"
+          TopLeft="89.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="256,204"
+          Size="256,248"
+          Id="Package\Option 1 - Takes ~ 60 Seconds"
+          TopLeft="5.50000000000003,5.5" />
+        <NodeLayout
+          Size="168,42"
+          Id="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto"
+          TopLeft="5.50000000000001,107.5" />
+        <NodeLayout
+          Size="131,42"
+          Id="Package\Option 2 - Takes ~ 25 Seconds\TRUNCATE"
+          TopLeft="24,5.5" />
+        <EdgeLayout
+          Id="Package\Option 2 - Takes ~ 25 Seconds.PrecedenceConstraints[Constraint_TRUNCATE_To_Load ProductPhoto]"
+          TopLeft="89.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="249,204"
+          Size="249,248"
+          Id="Package\Option 2 - Takes ~ 25 Seconds"
+          TopLeft="272.166666666667,5.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="124,42"
+          Id="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Get Rows"
+          TopLeft="5.50000000000001,5.5" />
+        <NodeLayout
+          Size="123,42"
+          Id="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto\Set Rows"
+          TopLeft="6.00000000000001,107.5" />
+        <EdgeLayout
+          Id="Package\Option 1 - Takes ~ 60 Seconds\Load ProductPhoto.Paths[Get Rows_Output_Set Rows]"
+          TopLeft="67.5,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <TaskHost
+    design-time-name="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="NaN,NaN"
+          Id="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Get Rows"
+          TopLeft="NaN,NaN" />
+        <NodeLayout
+          Size="NaN,NaN"
+          Id="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto\Set Rows"
+          TopLeft="NaN,NaN" />
+        <EdgeLayout
+          Id="Package\Option 2 - Takes ~ 25 Seconds\Load ProductPhoto.Paths[Get Rows_Output_Set Rows]"
+          TopLeft="NaN,NaN">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="{assembly:Null}"
+              Start="0,0"
+              End="0,0">
+              <mssgle:Curve.Segments>
+                <assembly:Null />
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

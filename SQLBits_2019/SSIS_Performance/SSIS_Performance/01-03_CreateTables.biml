@@ -1,0 +1,27 @@
+<#@ template tier="3" language="VB"#>
+<#@ code file="01-TopologySort.vb" #>
+<#@ import namespace="TopologySort" #>
+<Biml xmlns="http://schemas.varigence.com/biml.xsd">
+    <Packages>
+        <Package Name="01-01_Create" ConstraintMode="Linear" ProtectionLevel="EncryptSensitiveWithUserKey">
+            <Tasks>
+                <ExecuteSQL Name="DROP Tables" ConnectionName="AW_DW_SalesOnly">
+                    <DirectInput>
+                    <# for each table as asttablenode in RootNode.Tables.TopoSort.reverse  #>
+                        IF EXISTS (SELECT * from sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[<#= table.name #>]') AND type IN (N'U'))
+                        DROP TABLE [dbo].[<#= table.name #>]
+                        GO
+                    <# next #>
+                    </DirectInput>
+                </ExecuteSQL>
+                <ExecuteSQL Name="CREATE Tables" ConnectionName="AW_DW_SalesOnly">
+                    <DirectInput>
+                    <# for each table as asttablenode in RootNode.Tables.TopoSort  #>
+                        <#= table.GetDropAndCreateDDL() #>
+                    <# next #>
+                    </DirectInput>
+                </ExecuteSQL>
+            </Tasks>
+        </Package>
+    </Packages>   
+</Biml>

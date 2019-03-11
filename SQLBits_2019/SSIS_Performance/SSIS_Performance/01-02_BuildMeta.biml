@@ -1,0 +1,22 @@
+<#@ template language="VB" tier="2"#>
+<Biml xmlns="http://schemas.varigence.com/biml.xsd">
+    <Tables>
+        <# dim tablelist as new list (of string)
+        dim tablelist_checked as new list (of string)
+      '  tablelist.add ("FactInternetSales")                 
+        dim importResult as Importresults = rootnode.connections("AW_DW").GetDatabaseSchema()
+        do while importresult.tablenodes.where(function(e) tablelist.Contains(e.name) and not tablelist_checked.Contains(e.name)).where(function(r) r.columns.OfType(Of AstTableColumnTableReferenceNode)().Any).Count > 0
+            for each t as asttablenode in importresult.tablenodes.where(function(e) tablelist.Contains(e.name) and not tablelist_checked.Contains(e.name)).where(function(r) r.columns.OfType(Of AstTableColumnTableReferenceNode)().Any)
+                for each r as asttablecolumntablereferencenode in t.columns.ofType(of AstTableColumnTableReferenceNode)() 
+                    tablelist.add(r.foreigntable.name)
+                next
+                tablelist_checked.add(t.name)       
+            next
+        loop
+        importresult = rootnode.connections("AW_DW").GetDatabaseSchema(nothing,tablelist,ImportOptions.ExcludeViews or ImportOptions.ExcludeIndex)
+        for each t as asttablenode in importresult.tablenodes 
+        t.schema = rootnode.schemas(0)#>
+        <#= t.getbiml #>
+        <# next #>
+    </Tables>
+</Biml>

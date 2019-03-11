@@ -1,0 +1,16 @@
+<#@ template tier="4" language="VB" #>
+<Biml xmlns="http://schemas.varigence.com/biml.xsd">	
+	<Packages>
+		<Package Name="02-01_CreateStaging" ConstraintMode="Parallel" ProtectionLevel="EncryptSensitiveWithUserKey">
+			<Tasks>
+				<# for each table as asttablenode in RootNode.Tables  #>
+				<ExecuteSQL Name="Create <#=table.Schema.Name#> <#=table.Name#>" ConnectionName="Target">
+					<DirectInput>
+						<#= table.GetDropAndCreateDDL#>
+					</DirectInput>
+				</ExecuteSQL>
+			<# next #>
+			</Tasks>
+		</Package>
+	</Packages>
+</Biml>

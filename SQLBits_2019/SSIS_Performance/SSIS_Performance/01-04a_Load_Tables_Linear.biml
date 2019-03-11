@@ -1,0 +1,18 @@
+<#@ template tier="4" language="VB"#>
+<#@ code file="01-TopologySort.vb" #>
+<#@ import namespace="TopologySort" #>
+<Biml xmlns="http://schemas.varigence.com/biml.xsd">
+    <Packages>
+        <Package Name="01-02_Load_Linear" ConstraintMode="Linear" ProtectionLevel="EncryptSensitiveWithUserKey">
+            <Tasks>
+                <ExecutePackage Name="Recreate Tables">
+                        <Package PackageName="01-01_Create"></Package>
+                    
+                </ExecutePackage>
+                <# for each t as asttablenode in rootnode.tables.TopoSort #>
+                <#= CallBimlScript("01-06_Dataflow.biml",t,nothing) #>
+                <# next #>
+            </Tasks>
+        </Package>
+    </Packages>
+</Biml>

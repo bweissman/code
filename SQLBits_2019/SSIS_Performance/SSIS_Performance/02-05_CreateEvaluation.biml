@@ -1,0 +1,55 @@
+<#@ template tier="4" language="VB" optionexplicit="False" #>
+<#@ code file="02-BimlFunctions.vb" #>
+<# EvaluateTries = 2 #>
+<Biml xmlns="http://schemas.varigence.com/biml.xsd">
+    <Packages>
+        <Package Name="02-02_Evaluate" ConstraintMode="Linear"  ProtectionLevel="EncryptSensitiveWithUserKey">
+            <Tasks>
+                <Container Name="Initialize" ConstraintMode="Parallel">
+                    <Tasks>
+                        <# for each row in BF.GetDT(RootNode.Connections("Target"),"select * from meta.tables where active = 1").Rows  #>
+                <Container Name="Load <#= row("RecId")#> - <#= Row("TableName")#> - <#= Row("Pattern") #>" ConstraintMode="Linear">
+                    <Tasks>
+                           <#= CallBimlScript("02-07_Dataflow.biml","PROD",row("Tablename"),row("Pattern"),row("Parameters")) #>
+                     </Tasks>
+                </Container>
+                 <# next #>
+                    </Tasks>
+                </Container>
+                <# for each row in BF.GetDT(RootNode.Connections("Target"),"meta.tables").Rows  #>
+                <Container Name="Evaluate <#= row("RecId")#> - <#= Row("TableName")#> - <#= Row("Pattern") #>" ConstraintMode="Linear">
+                    <Tasks>
+                        <# for Tries = 1 to EvaluateTries #>
+                                <Container Name="Try <#= Tries#>" ConstraintMode="Linear">
+                                    <Tasks>
+                                        <ExecuteSQL Name="StartLog" ConnectionName="Target">
+                    <DirectInput>
+                        DELETE FROM Meta.Performancelog where patternid = <#= row("RECID") #> and EndTime is null
+                        GO
+                        insert into Meta.Performancelog (Patternid,StartTime)
+                        select <#= row("RECID") #>,GetDate()
+                    </DirectInput>
+                </ExecuteSQL>
+                                        <#= CallBimlScript("02-07_Dataflow.biml","TST",row("Tablename"),row("Pattern"),row("Parameters")) #>
+                                            
+                                             <ExecuteSQL Name="EndLog" ConnectionName="Target">
+                    <DirectInput>
+                        update Meta.Performancelog set EndTime = Getdate() where patternid = <#= row("RECID") #> and EndTime is null
+                     
+                    </DirectInput>
+                </ExecuteSQL>
+                                    </Tasks>
+                                </Container>
+                        <# next #>
+                    </Tasks>
+                </Container>
+                <# next #>
+                     <ExecuteSQL Name="Evaluate" ConnectionName="Target">
+                    <DirectInput>
+                        EXEC SP_Evaluate <#= EvaluateTries #>
+                    </DirectInput>
+                </ExecuteSQL>
+            </Tasks>
+        </Package>
+    </Packages>
+</Biml>

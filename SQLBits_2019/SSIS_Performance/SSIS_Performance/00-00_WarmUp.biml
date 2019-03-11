@@ -1,0 +1,72 @@
+﻿<Biml xmlns="http://schemas.varigence.com/biml.xsd">
+  <Connections>
+    <Connection Name="AW" ConnectionString="Provider=SQLNCLI11;Data Source=localhost;Integrated Security=SSPI;Initial Catalog=AdventureWorks2017" />
+    <Connection Name="AW_TMP" ConnectionString="Provider=SQLNCLI11;Data Source=localhost;Integrated Security=SSPI;Initial Catalog=AdventureWorks2017_TMP" />
+  </Connections>
+  <Databases>
+    <Database Name="AdventureWorks2017_TMP" ConnectionName="AW_TMP"></Database>
+  </Databases>
+  <Schemas>
+    <Schema Name="dbo" DatabaseName="AdventureWorks2017_TMP"></Schema>
+  </Schemas>
+  <Tables>
+    <Table Name="ProductPhoto" SchemaName="AdventureWorks2017_TMP.dbo">
+      <Columns>
+        <Column Name="ProductPhotoID" />
+        <Column Name="ThumbNailPhoto" DataType="Binary" Length="-1" IsNullable="true" />
+        <Column Name="ThumbnailPhotoFileName" DataType="String" Length="50" IsNullable="true" />
+        <Column Name="LargePhoto" DataType="Binary" Length="-1" IsNullable="true" />
+        <Column Name="LargePhotoFileName" DataType="String" Length="50" IsNullable="true" />
+        <Column Name="ModifiedDate" DataType="DateTime" />
+      </Columns>
+    </Table>
+  </Tables>
+  <Packages>
+    <Package Name="00_Warmup" ConstraintMode="Parallel" ProtectionLevel="EncryptSensitiveWithUserKey">
+      <Tasks>
+        <Container Name="Variante 1" ConstraintMode="Linear">
+          <Tasks>
+            <ExecuteSQL Name="TRUNCATE " ConnectionName="AW_TMP">
+              <DirectInput>
+                                      TRUNCATE TABLE ProductPhoto
+                 
+                    </DirectInput>
+            </ExecuteSQL>
+          
+          <Dataflow Name="Load ProductPhoto">
+            <Transformations>
+              <OleDbSource Name="Get Rows" ConnectionName="AW">
+                <DirectInput>Select top 25000 a.* from Production.ProductPhoto a
+CROSS JOIN [Person].[Address]</DirectInput>
+              </OleDbSource>
+              <OleDbDestination Name="Set Rows" ConnectionName="AW_TMP" KeepIdentity="true">
+                <TableOutput TableName="AdventureWorks2017_TMP.dbo.ProductPhoto" />
+              </OleDbDestination>
+            </Transformations>
+          </Dataflow>
+        </Tasks>
+      </Container>
+      <Container Name="Variante 2" ConstraintMode="Linear">
+        <Tasks>
+          <ExecuteSQL Name="TRUNCATE " ConnectionName="AW_TMP">
+            <DirectInput>
+                                      TRUNCATE TABLE ProductPhoto
+                 
+                    </DirectInput>
+          </ExecuteSQL>
+        
+        <Dataflow Name="Load ProductPhoto" BLOBTempStoragePath="E:\Temp" BufferTempStoragePath="E:\Temp">
+          <Transformations>
+            <OleDbSource Name="Get Rows" ConnectionName="AW">
+              <DirectInput>Select top 25000 a.* from Production.ProductPhoto a
+CROSS JOIN [Person].[Address]</DirectInput>
+            </OleDbSource>
+            <OleDbDestination Name="Set Rows" ConnectionName="AW_TMP">
+              <TableOutput TableName="AdventureWorks2017_TMP.dbo.ProductPhoto" />
+            </OleDbDestination>
+          </Transformations>
+        </Dataflow>
+      </Tasks>
+    </Container>
+  </Tasks>
+</Package></Packages></Biml>

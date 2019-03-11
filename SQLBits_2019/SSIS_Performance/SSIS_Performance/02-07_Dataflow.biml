@@ -1,0 +1,29 @@
+<#@ template language="VB" designerbimlpath="Biml/Packages/Package/Tasks" #>
+<#@ property name="SCHEMA" type="String" #>
+<#@ property name="TableName" type="String" #>
+<#@ property name="Pattern" type="String" #>
+<#@ property name="Parameters" type="String" #>
+ <ExecuteSQL Name="Clean" ConnectionName="Target">
+                    <DirectInput>
+                    <# if Pattern = "DELETE" then#>
+                    DELETE FROM <#= schema #>.<#= tablename#> 
+                        <# if parameters <> "" then #>
+                            WHERE <#= parameters #>
+                        <# end if#>
+                    <# else #>
+                    TRUNCATE TABLE <#= schema #>.<#= tablename#>
+                    <# end if #>
+                    </DirectInput>
+                </ExecuteSQL>
+<Dataflow Name="Load <#= TableName #>">
+    <Transformations>
+        <OleDbSource Name="Get Rows" ConnectionName="Source">
+            <DirectInput>Select * from <#= tablename#> <# if parameters <> "" then #>
+                            WHERE <#= parameters #>
+                        <# end if#></DirectInput>
+        </OleDbSource>
+        <OleDbDestination Name="Set Rows" ConnectionName="Target" KeepIdentity="true">
+            <TableOutput TableName="BimlDemo_SSIS_Performance.<#= schema #>.<#= tablename#>" />
+        </OleDbDestination>
+    </Transformations>
+</Dataflow>

@@ -1,0 +1,16 @@
+<#@ template language="VB" tier="2" optionexplicit="False" #>
+<#@ code file="02-BimlFunctions.vb" #>
+<Biml xmlns="http://schemas.varigence.com/biml.xsd">
+	<Tables>
+		<#  dim SRC = RootNode.Connections("Source")
+			dim importResult = SRC.GetDatabaseSchema(nothing,BF.GetNonEmptyList(RootNode.Connections("Target"), _ 
+			"select distinct tablename from meta.tables"), BF.DefaultImportOptions) 
+			for each table as asttablenode in importResult.TableNodes #>
+		<Table Name="<#=table.Name#>" SchemaName="BimlDemo_SSIS_Performance.TST">
+			 			<Columns>					<#= table.columns.getbiml #>
+		 			</Columns>
+		
+		</Table>
+		<#  next #>
+	</Tables>
+</Biml>

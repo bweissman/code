@@ -1,0 +1,46 @@
+<#@ template tier="4" language="VB"#>
+<#@ code file="01-TopologySort.vb" #>
+<#@ import namespace="TopologySort" #>
+ <Biml xmlns="http://schemas.varigence.com/biml.xsd">
+    <Packages>
+        <Package Name="01-03_Load_Parallel" ConstraintMode="Linear"  ProtectionLevel="EncryptSensitiveWithUserKey">
+            <Tasks>
+            <ExecutePackage Name="Recreate Tables">
+                        <Package PackageName="01-01_Create"></Package>
+                    
+                </ExecutePackage>
+                <Container Name="Load tables without reference and immediate descendants" ConstraintMode="Parallel">
+                    <Tasks>
+                        <# for each t as asttablenode in rootnode.tables.where(function(r) r.columns.OfType(Of AstTableColumnTableReferenceNode)().Count+r.columns.OfType(Of AstMultipleColumnTableReferenceNode)().Count = 0) #>
+                        <Container Name="Load <#= t.name #>" ConstraintMode="Linear">
+                            <Tasks>
+                                <#= CallBimlScript("01-05_Recursion.biml",t,LoadedTables) #>
+                            </Tasks>
+                        </Container>
+                        <# next #>
+                    </Tasks>
+                </Container>
+                <# do while rootnode.tables.where(function(e) not loadedtables.contains(e.name) and not e.columns.OfType(Of AstMultipleColumnTableReferenceNode).Where(function(c) c.foreigntable.name <> e.name and not loadedtables.contains(c.foreigntable.name) ).count > 0 and not e.columns.OfType(Of AstTableColumnTableReferenceNode).Where(function(m) m.foreigntable.name <> e.name and not loadedtables.contains(m.foreigntable.name) ).count > 0).Any and level < 10
+                Level += 1
+                loadabletables = rootnode.tables.where(function(e) not loadedtables.contains(e.name) and not e.columns.OfType(Of AstMultipleColumnTableReferenceNode).Where(function(c) c.foreigntable.name <> e.name and not loadedtables.contains(c.foreigntable.name) ).count > 0 and not e.columns.OfType(Of AstTableColumnTableReferenceNode).Where(function(m) m.foreigntable.name <> e.name and not loadedtables.contains(m.foreigntable.name) ).count > 0).ToList #>
+                <Container Name="Load possible tables - Level <#= Level #>" ConstraintMode="Parallel">
+                    <Tasks>
+                        <# for each tbl as asttablenode in loadabletables #>
+                        <#= CallBimlScript("01-06_Dataflow.biml",tbl,loadedtables) #>
+                        <# next #>
+                    </Tasks>
+                </Container>
+                <# loop 
+                 if  loadedtables.count < rootnode.tables.count then #>
+                <Container Name="Load leftover tables" ConstraintMode="Linear">
+                    <Tasks>
+                        <# for each t as asttablenode in rootnode.tables.TopoSort.where(function(r) not loadedtables.contains(r.name)) #>
+                        <#= CallBimlScript("01-06_Dataflow.biml",t,LoadedTables) #>
+                        <# next #>
+                    </Tasks>
+                </Container>
+                <# end if #>
+            </Tasks>
+        </Package>
+    </Packages>
+</Biml>
