@@ -1,0 +1,22 @@
+﻿<#@ template language="VB" optionexplicit="False" tier="40" #>
+<Biml xmlns="http://schemas.varigence.com/biml.xsd">
+	<Packages>
+		<# for each tbl in RootNode.Tables #>
+		<Package Name="02_Load_Tables_<#= tbl.Name #>" ProtectionLevel="EncryptSensitiveWithUserKey" LoggingMode="Enabled">
+			<LogProviders>
+				<SqlServerLogProvider ConnectionName="Target" Name="Log" />
+            </LogProviders>
+			<LogEvents >
+				<LogEvent EventName="OnPreExecute" />
+				<LogEvent EventName="OnPostExecute"/>
+            </LogEvents>
+			<Tasks>
+				<#= CallBimlScript("090_FullLoad.biml",tbl) #>
+            </Tasks>
+			<Annotations>
+				<Annotation Tag="IsLoad" AnnotationType="Tag">true</Annotation>
+            </Annotations>
+        </Package>
+		<# next  #>
+    </Packages>
+</Biml>

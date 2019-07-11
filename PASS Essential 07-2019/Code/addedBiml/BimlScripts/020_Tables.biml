@@ -1,0 +1,33 @@
+﻿<#@ template language="VB" optionexplicit="False" tier="20" #>
+<Biml xmlns="http://schemas.varigence.com/biml.xsd">
+	<Tables>
+		<# Dim AW = RootNode.Connections("Source")
+		   Dim Tbls as new List(of String)
+		   MyMeta = ExternalDataAccess.GetDataTable(
+			   RootNode.Connections("Target").RenderedConnectionString,
+			   "Select * from AAA_MetaTables")
+			   
+		   for each dr in MyMeta.rows
+		   	Tbls.add(dr("TableName"))
+		   next
+		  Dim IR as ImportResults = AW.GetDatabaseSchema(nothing,tbls,ImportOptions.ExcludeIdentity Or ImportOptions.ExcludePrimaryKey  Or ImportOptions.ExcludeUniqueKey Or ImportOptions.ExcludeColumnDefault Or ImportOptions.ExcludeIndex Or ImportOptions.ExcludeCheckConstraint Or ImportOptions.ExcludeForeignKey )
+		  for each tbl in IR.TableNodes #>
+		<Table Name="AW_<#= tbl.schema.name #>_<#= tbl.name #>" SchemaName="PE_Destination.dbo">
+			<Columns>
+				<# for each col in tbl.columns #>
+					<#= col.GetBiml() #>
+				<# next  #>
+				<Column Name="BI_LoadDate" DataType="DateTime"/>
+				<Column Name="BI_SourceSystem" DataType="String" Length="50"/>
+				<Column Name="BI_Execution" DataType="String" Length="50"/>
+				
+            </Columns>
+			<Annotations>
+				<Annotation AnnotationType="Tag" Tag="SchemaQualifiedName"><#= tbl.SchemaQualifiedName #></Annotation>
+				<Annotation AnnotationType="Tag" Tag="ApplicationID">AX</Annotation>
+            </Annotations>
+        </Table>
+		<# next #>
+
+    </Tables>
+</Biml>

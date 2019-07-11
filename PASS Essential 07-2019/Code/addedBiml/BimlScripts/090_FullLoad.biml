@@ -1,0 +1,27 @@
+﻿<#@ template language="VB" optionexplicit="False" designerbimlpath="Biml/Packages/Package/Tasks" #>
+<#@ property name="tbl" type="AstTableNode" #>
+
+	<Container Name="LOAD TABLE <#= tbl.Name #>" ConstraintMode="Linear">
+				<Tasks>                
+					<ExecuteSQL Name="TRUNCATE TABLE <#= tbl.Name #>" ConnectionName="Target">
+						<DirectInput>TRUNCATE TABLE <#= tbl.SchemaQualifiedName #></DirectInput>
+               		 </ExecuteSQL>
+					 <Dataflow Name="LOAD TABLE">
+						<Transformations>
+							<OleDbSource Name="SRC" ConnectionName="Source">
+								<DirectInput>SELECT * FROM <#= tbl.GetTag("SchemaQualifiedName") #></DirectInput>
+                            </OleDbSource>
+				<DerivedColumns Name="Extra Columns">
+<Columns>
+	<Column Name="BI_LoadDate" DataType="DateTime">@[System::StartTime]</Column>
+	<Column Name="BI_SourceSystem" DataType="String" Length="50">"AX"</Column>
+	<Column Name="BI_Execution" DataType="String" Length="50">@[System::ExecutionInstanceGUID]</Column>
+</Columns>
+</DerivedColumns>
+							<OleDbDestination Name="Dest" ConnectionName="Target" >
+								<TableOutput TableName="<#= tbl.ScopedName #>"></TableOutput>
+                            </OleDbDestination>
+                        </Transformations>
+                     </Dataflow>
+				</Tasks>
+				</Container>

@@ -1,0 +1,14 @@
+﻿<#@ template language="VB" optionexplicit="False" tier="50" #>
+<Biml xmlns="http://schemas.varigence.com/biml.xsd">
+	<Packages>
+		<Package Name="03_Master" ProtectionLevel="EncryptSensitiveWithUserKey">
+			<Tasks>
+				<# for each pack in RootNode.Packages.Where(function(c) c.getTag("IsLoad") = "true") #>
+				 <ExecutePackage Name="Run <#=pack.name #>">
+					 <Package PackageName="<#= pack.Name #>"/>
+				</ExecutePackage>
+				<# next  #>
+            </Tasks>
+        </Package>
+    </Packages>
+</Biml>

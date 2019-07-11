@@ -1,0 +1,16 @@
+﻿<#@ template language="VB" optionexplicit="False" tier="10" #>
+<Biml xmlns="http://schemas.varigence.com/biml.xsd">
+	<Connections>
+ 
+ <OleDbConnection Name="Source" 
+		ConnectionString="Provider=SQLNCLI11;Server=localhost;Initial Catalog=AdventureWorks2017;Integrated Security=SSPI;" ></OleDbConnection>
+		<OleDbConnection Name="Target" 
+		ConnectionString="Provider=SQLNCLI11;Server=localhost;Initial Catalog=PE_Destination;Integrated Security=SSPI;" ></OleDbConnection>
+    </Connections>
+	<Databases>
+		<Database ConnectionName="Target" Name="PE_Destination"></Database>
+    </Databases>
+	<Schemas>
+		<Schema DatabaseName="PE_Destination" Name="dbo"/>
+    </Schemas>
+</Biml>

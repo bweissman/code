@@ -1,0 +1,15 @@
+02_Load_Tables	02_Load_Tables.LOAD TABLE AW_Person_Person	5	5	473	710
+02_Load_Tables	02_Load_Tables.LOAD TABLE AW_Person_Person.TRUNCATE TABLE AW_Person_Person	59	5	300	100
+02_Load_Tables	02_Load_Tables.LOAD TABLE AW_Person_Person.LOAD TABLE	5	155	408	405
+02_Load_Tables	02_Load_Tables.LOAD TABLE AW_Person_Person.LOAD TABLE.SRC	48	5	300	100
+02_Load_Tables	02_Load_Tables.LOAD TABLE AW_Person_Person.LOAD TABLE.Dest	48	155	300	100
+**********Compact Node Bounds
+**********Source Anchors
+02_Load_Tables	02_Load_Tables.LOAD TABLE AW_Person_Person	02_Load_Tables.LOAD TABLE AW_Person_Person.Output
+02_Load_Tables	02_Load_Tables.LOAD TABLE AW_Person_Person.TRUNCATE TABLE AW_Person_Person	02_Load_Tables.LOAD TABLE AW_Person_Person.TRUNCATE TABLE AW_Person_Person.Output
+02_Load_Tables	02_Load_Tables.LOAD TABLE AW_Person_Person.LOAD TABLE.SRC	02_Load_Tables.LOAD TABLE AW_Person_Person.LOAD TABLE.SRC.Output
+02_Load_Tables	02_Load_Tables.LOAD TABLE AW_Person_Person.LOAD TABLE.SRC	02_Load_Tables.LOAD TABLE AW_Person_Person.LOAD TABLE.SRC.Error
+02_Load_Tables	02_Load_Tables.LOAD TABLE AW_Person_Person.LOAD TABLE.Dest	02_Load_Tables.LOAD TABLE AW_Person_Person.LOAD TABLE.Dest.Error
+**********Sink Anchors
+02_Load_Tables	02_Load_Tables.LOAD TABLE AW_Person_Person.LOAD TABLE	02_Load_Tables.LOAD TABLE AW_Person_Person.TRUNCATE TABLE AW_Person_Person.Output
+02_Load_Tables	02_Load_Tables.LOAD TABLE AW_Person_Person.LOAD TABLE.Dest	02_Load_Tables.LOAD TABLE AW_Person_Person.LOAD TABLE.SRC.Output

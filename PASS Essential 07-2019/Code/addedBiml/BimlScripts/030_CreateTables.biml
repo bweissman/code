@@ -1,0 +1,14 @@
+﻿<#@ template language="VB" optionexplicit="False" tier="30" #>
+<Biml xmlns="http://schemas.varigence.com/biml.xsd">
+	<Packages>
+		<Package Name="01_Create_Tables" ProtectionLevel="EncryptSensitiveWithUserKey">
+			<Tasks>
+				<# for each tbl in RootNode.Tables #>
+				<ExecuteSQL Name="CREATE TABLE <#= tbl.Name #>" ConnectionName="Target">
+					<DirectInput><#= tbl.GetDropAndCreateDDL() #></DirectInput>
+                </ExecuteSQL>
+				<# next  #>
+            </Tasks>
+        </Package>
+    </Packages>
+</Biml>
