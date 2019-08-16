@@ -1,0 +1,23 @@
+﻿<#@ property name="table" type="AstTableNode" #>
+{
+    "name": "Blob_<#=table.Schema.Name#>_<#=table.Name#>_Dataset",
+    "properties":
+    {
+        "location":
+        {
+            "type": "AzureBlobLocation",
+            "folderPath": "containername",
+            "format":
+            {
+                "type": "TextFormat",
+                "columnDelimiter": "\t"
+            },
+            "linkedServiceName": "Blob_LinkedService"
+        },
+        "availability":
+        {
+            "frequency": "Day",
+            "interval": 1
+        }
+    }
+}

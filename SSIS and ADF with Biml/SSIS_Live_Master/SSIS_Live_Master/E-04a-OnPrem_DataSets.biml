@@ -1,0 +1,20 @@
+﻿<#@ property name="table" type="AstTableNode" #>
+{
+    "name": "OnPremisesSqlServer_<#=table.Schema.Name#>_<#=table.Name#>_Dataset",
+    "properties": {
+        "type": "SqlServerTable",
+        "linkedServiceName": "OnPremisesSqlServer_LinkedService",
+        "structure": [
+        <# var isFirst = true; foreach (var column in table.Columns) { #>
+        <#=isFirst ? "" : ","#>{ "<#=column.Name#>", "<#=column.DataType#>" }
+        <# isFirst = false; } #>
+        ],
+        "typeProperties": {
+            "tableName": "<#=table.SchemaQualifiedName#>"
+        },
+        "availability": {
+            "frequency": "Day",
+            "interval": "1"
+        }
+    }
+}

@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2036
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "SSIS_Live_Master", "SSIS_Live_Master\SSIS_Live_Master.dtproj", "{217DEFEE-F1BE-4C2E-9368-8D91BFF990FE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Development|Default = Development|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{217DEFEE-F1BE-4C2E-9368-8D91BFF990FE}.Development|Default.ActiveCfg = Development
+		{217DEFEE-F1BE-4C2E-9368-8D91BFF990FE}.Development|Default.Build.0 = Development
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1CF29AD9-3D79-488B-B8A9-EBEE3B4B69AA}
+	EndGlobalSection
+EndGlobal

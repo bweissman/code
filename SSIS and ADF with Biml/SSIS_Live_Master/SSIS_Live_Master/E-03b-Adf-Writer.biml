@@ -1,0 +1,18 @@
+﻿<#@ template tier="20" #> 
+<# if (!IsBackgroundCompilation) { 
+// Not included: Gateways, Linked Services etc.
+#>
+
+<# foreach (var table in RootNode.Tables) { #>
+
+<# System.IO.File.WriteAllText(@"C:\Temp\BimlInTheCloud\ADF\OnPrem_" + table.Schema.Name + "_" + table.Name + ".json", CallBimlScript("E-04a-OnPrem_DataSets.biml", table)); #>
+<# System.IO.File.WriteAllText(@"C:\Temp\BimlInTheCloud\ADF\Blob_" + table.Schema.Name + "_" + table.Name + ".json", CallBimlScript("E-04b-Blob_DataSets.biml", table)); #>
+<# System.IO.File.WriteAllText(@"C:\Temp\BimlInTheCloud\ADF\SqlAzure_" + table.Schema.Name + "_" + table.Name + ".json", CallBimlScript("E-04c-SqlAzure_DataSets.biml", table)); #>
+
+<# } #>
+
+<# System.IO.File.WriteAllText(@"C:\Temp\BimlInTheCloud\ADF\_Pipeline.json", CallBimlScript("E-05-Pipeline.biml", RootNode.Tables)); #>
+<# } #>
+
+<Biml xmlns="http://schemas.varigence.com/biml.xsd">
+</Biml>

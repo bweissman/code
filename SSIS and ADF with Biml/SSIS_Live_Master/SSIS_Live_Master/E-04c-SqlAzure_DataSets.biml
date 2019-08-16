@@ -1,0 +1,21 @@
+﻿<#@ property name="table" type="AstTableNode" #>
+{
+    "name": "SqlAzure_<#=table.Schema.Name#>_<#=table.Name#>_Dataset",
+    "properties": {
+        "structure": [
+        <# var isFirst = true; foreach (var column in table.Columns) { #>
+        <#=isFirst ? "" : ","#>{ "<#=column.Name#>", "<#=column.DataType#>" }
+        <# isFirst = false; } #>
+        ],
+        "location":
+        {
+            "type": "AzureSqlTableLocation",
+            "tableName": "<#=table.SchemaQualifiedName#>",
+            "linkedServiceName": "SqlAzure_LinkedService"
+        },
+        "availability": {
+            "frequency": "Day",
+            "interval": "1"
+        }
+    }
+}

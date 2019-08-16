@@ -1,0 +1,22 @@
+<#@ template tier="10" language="VB" optionexplicit="False" #>
+<Biml xmlns="http://schemas.varigence.com/biml.xsd">
+    <Tables>
+        <#  Dim Tables as new List(of String)
+            MyMetadata = ExternalDataAccess.GetDataTable(RootNode.Connections("Target").RenderedConnectionString, "Select * from [MyBimlMeta_Tables]")
+            For Each dr In MyMetadata.rows
+                Tables.add (dr("TableName"))
+            Next  
+            for each tbl in RootNode.Connections("Source").GetDatabaseSchema(nothing,Tables,ImportOptions.ExcludeForeignKey or ImportOptions.ExcludeIdentity).TableNodes #>
+        <Table Name="AW_<#=tbl.Schema.Name#>_<#=tbl.Name#>" SchemaName="BimlDemo_Live.dbo">
+            <Columns>
+                <#= tbl.columns.getbiml #>
+            </Columns>
+             <Annotations>
+                <Annotation AnnotationType="Tag" Tag="SchemaQualifiedName">
+                    <#=tbl.SchemaQualifiedName #>
+                </Annotation>
+            </Annotations>
+        </Table>
+        <#  next #>
+    </Tables>
+</Biml>

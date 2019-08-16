@@ -1,0 +1,176 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="8/9/2018 1:53:00 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="BWDemo"
+  DTS:CreatorName="bweissman"
+  DTS:DTSID="{C35C7208-7662-484D-8C46-CDD561F9A9A8}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="14.0.3002.107"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="01_CreateStaging"
+  DTS:VersionGUID="{F46760D4-5A07-4439-86CF-2290886F315E}"
+  DTS:VersionMajor="0">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Target]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{5954EC7B-5461-483F-9E0E-EAD5187EB735}"
+      DTS:ObjectName="Target">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="server=.;initial catalog=BimlDemo_Live;provider=SQLNCLI11;integrated security=SSPI;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Create AW_Sales_SalesOrderDetail"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:DTSID="{09C3A414-FDEA-46B5-9E2F-24ADCC28F76A}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Create AW_Sales_SalesOrderDetail"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="2">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{5954EC7B-5461-483F-9E0E-EAD5187EB735}"
+          SQLTask:SqlStatementSource="&#xA;                        SET ANSI_NULLS ON&#xA;SET QUOTED_IDENTIFIER ON&#xA;GO&#xA;&#xA;-------------------------------------------------------------------&#xA;IF EXISTS (SELECT * from sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AW_Sales_SalesOrderDetail]') AND type IN (N'U'))&#xA;DROP TABLE [dbo].[AW_Sales_SalesOrderDetail]&#xA;GO&#xA;&#xA;CREATE TABLE [dbo].[AW_Sales_SalesOrderDetail]&#xA;(&#xA;-- Columns Definition&#xA; [SalesOrderID] int NOT NULL &#xA;, [SalesOrderDetailID] int NOT NULL &#xA;, [CarrierTrackingNumber] nvarchar(25) &#xA;, [OrderQty] smallint NOT NULL &#xA;, [ProductID] int NOT NULL &#xA;, [SpecialOfferID] int NOT NULL &#xA;, [UnitPrice] money NOT NULL &#xA;, [UnitPriceDiscount] money NOT NULL &#xA;, [LineTotal] decimal(38,6) NOT NULL &#xA;, [rowguid] uniqueidentifier NOT NULL &#xA;, [ModifiedDate] datetime NOT NULL &#xA;&#xA;-- Constraints&#xA;&#xA;)&#xA;ON &quot;default&quot;&#xA;WITH (DATA_COMPRESSION = NONE)&#xA;GO&#xA;&#xA;-------------------------------------------------------------------&#xA;&#xA;&#xA;                    " xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Create AW_Sales_SalesOrderHeader"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:DTSID="{23F6E56D-C1C0-4F50-A3B5-57EBCC9EEB6F}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Create AW_Sales_SalesOrderHeader"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="3">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{5954EC7B-5461-483F-9E0E-EAD5187EB735}"
+          SQLTask:SqlStatementSource="&#xA;                        SET ANSI_NULLS ON&#xA;SET QUOTED_IDENTIFIER ON&#xA;GO&#xA;&#xA;-------------------------------------------------------------------&#xA;IF EXISTS (SELECT * from sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AW_Sales_SalesOrderHeader]') AND type IN (N'U'))&#xA;DROP TABLE [dbo].[AW_Sales_SalesOrderHeader]&#xA;GO&#xA;&#xA;CREATE TABLE [dbo].[AW_Sales_SalesOrderHeader]&#xA;(&#xA;-- Columns Definition&#xA; [SalesOrderID] int NOT NULL &#xA;, [RevisionNumber] tinyint NOT NULL &#xA;, [OrderDate] datetime NOT NULL &#xA;, [DueDate] datetime NOT NULL &#xA;, [ShipDate] datetime &#xA;, [Status] tinyint NOT NULL &#xA;, [OnlineOrderFlag] bit NOT NULL &#xA;, [SalesOrderNumber] nvarchar(25) NOT NULL &#xA;, [PurchaseOrderNumber] nvarchar(25) &#xA;, [AccountNumber] nvarchar(15) &#xA;, [CustomerID] int NOT NULL &#xA;, [SalesPersonID] int &#xA;, [TerritoryID] int &#xA;, [BillToAddressID] int NOT NULL &#xA;, [ShipToAddressID] int NOT NULL &#xA;, [ShipMethodID] int NOT NULL &#xA;, [CreditCardID] int &#xA;, [CreditCardApprovalCode] varchar(15) &#xA;, [CurrencyRateID] int &#xA;, [SubTotal] money NOT NULL &#xA;, [TaxAmt] money NOT NULL &#xA;, [Freight] money NOT NULL &#xA;, [TotalDue] money NOT NULL &#xA;, [Comment] nvarchar(128) &#xA;, [rowguid] uniqueidentifier NOT NULL &#xA;, [ModifiedDate] datetime NOT NULL &#xA;&#xA;-- Constraints&#xA;&#xA;)&#xA;ON &quot;default&quot;&#xA;WITH (DATA_COMPRESSION = NONE)&#xA;GO&#xA;&#xA;-------------------------------------------------------------------&#xA;&#xA;&#xA;                    " xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Create AW_Sales_SalesOrderHeaderSalesReason"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:DTSID="{02D6B88C-B9F7-4257-A608-79598C11D928}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Create AW_Sales_SalesOrderHeaderSalesReason"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="4">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{5954EC7B-5461-483F-9E0E-EAD5187EB735}"
+          SQLTask:SqlStatementSource="&#xA;                        SET ANSI_NULLS ON&#xA;SET QUOTED_IDENTIFIER ON&#xA;GO&#xA;&#xA;-------------------------------------------------------------------&#xA;IF EXISTS (SELECT * from sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AW_Sales_SalesOrderHeaderSalesReason]') AND type IN (N'U'))&#xA;DROP TABLE [dbo].[AW_Sales_SalesOrderHeaderSalesReason]&#xA;GO&#xA;&#xA;CREATE TABLE [dbo].[AW_Sales_SalesOrderHeaderSalesReason]&#xA;(&#xA;-- Columns Definition&#xA; [SalesOrderID] int NOT NULL &#xA;, [SalesReasonID] int NOT NULL &#xA;, [ModifiedDate] datetime NOT NULL &#xA;&#xA;-- Constraints&#xA;&#xA;)&#xA;ON &quot;default&quot;&#xA;WITH (DATA_COMPRESSION = NONE)&#xA;GO&#xA;&#xA;-------------------------------------------------------------------&#xA;&#xA;&#xA;                    " xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Create AW_Sales_SalesPerson"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:DTSID="{8174799F-04F2-49C9-9F3A-353E3D486221}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Create AW_Sales_SalesPerson"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="5">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{5954EC7B-5461-483F-9E0E-EAD5187EB735}"
+          SQLTask:SqlStatementSource="&#xA;                        SET ANSI_NULLS ON&#xA;SET QUOTED_IDENTIFIER ON&#xA;GO&#xA;&#xA;-------------------------------------------------------------------&#xA;IF EXISTS (SELECT * from sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AW_Sales_SalesPerson]') AND type IN (N'U'))&#xA;DROP TABLE [dbo].[AW_Sales_SalesPerson]&#xA;GO&#xA;&#xA;CREATE TABLE [dbo].[AW_Sales_SalesPerson]&#xA;(&#xA;-- Columns Definition&#xA; [BusinessEntityID] int NOT NULL &#xA;, [TerritoryID] int &#xA;, [SalesQuota] money &#xA;, [Bonus] money NOT NULL &#xA;, [CommissionPct] smallmoney NOT NULL &#xA;, [SalesYTD] money NOT NULL &#xA;, [SalesLastYear] money NOT NULL &#xA;, [rowguid] uniqueidentifier NOT NULL &#xA;, [ModifiedDate] datetime NOT NULL &#xA;&#xA;-- Constraints&#xA;&#xA;)&#xA;ON &quot;default&quot;&#xA;WITH (DATA_COMPRESSION = NONE)&#xA;GO&#xA;&#xA;-------------------------------------------------------------------&#xA;&#xA;&#xA;                    " xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Create AW_Sales_SalesPersonQuotaHistory"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:DTSID="{E142562B-2084-420E-AD4D-1548706B045C}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Create AW_Sales_SalesPersonQuotaHistory"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{5954EC7B-5461-483F-9E0E-EAD5187EB735}"
+          SQLTask:SqlStatementSource="&#xA;                        SET ANSI_NULLS ON&#xA;SET QUOTED_IDENTIFIER ON&#xA;GO&#xA;&#xA;-------------------------------------------------------------------&#xA;IF EXISTS (SELECT * from sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AW_Sales_SalesPersonQuotaHistory]') AND type IN (N'U'))&#xA;DROP TABLE [dbo].[AW_Sales_SalesPersonQuotaHistory]&#xA;GO&#xA;&#xA;CREATE TABLE [dbo].[AW_Sales_SalesPersonQuotaHistory]&#xA;(&#xA;-- Columns Definition&#xA; [BusinessEntityID] int NOT NULL &#xA;, [QuotaDate] datetime NOT NULL &#xA;, [SalesQuota] money NOT NULL &#xA;, [rowguid] uniqueidentifier NOT NULL &#xA;, [ModifiedDate] datetime NOT NULL &#xA;&#xA;-- Constraints&#xA;&#xA;)&#xA;ON &quot;default&quot;&#xA;WITH (DATA_COMPRESSION = NONE)&#xA;GO&#xA;&#xA;-------------------------------------------------------------------&#xA;&#xA;&#xA;                    " xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Create AW_Sales_SalesReason"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:DTSID="{6F3DFA12-BF1E-4AE6-A00A-0EC3190CA7CD}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Create AW_Sales_SalesReason"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{5954EC7B-5461-483F-9E0E-EAD5187EB735}"
+          SQLTask:SqlStatementSource="&#xA;                        SET ANSI_NULLS ON&#xA;SET QUOTED_IDENTIFIER ON&#xA;GO&#xA;&#xA;-------------------------------------------------------------------&#xA;IF EXISTS (SELECT * from sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AW_Sales_SalesReason]') AND type IN (N'U'))&#xA;DROP TABLE [dbo].[AW_Sales_SalesReason]&#xA;GO&#xA;&#xA;CREATE TABLE [dbo].[AW_Sales_SalesReason]&#xA;(&#xA;-- Columns Definition&#xA; [SalesReasonID] int NOT NULL &#xA;, [Name] nvarchar(50) NOT NULL &#xA;, [ReasonType] nvarchar(50) NOT NULL &#xA;, [ModifiedDate] datetime NOT NULL &#xA;&#xA;-- Constraints&#xA;&#xA;)&#xA;ON &quot;default&quot;&#xA;WITH (DATA_COMPRESSION = NONE)&#xA;GO&#xA;&#xA;-------------------------------------------------------------------&#xA;&#xA;&#xA;                    " xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Create AW_Sales_SalesTaxRate"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:DTSID="{95CCACFF-98D2-421B-8AB5-59004DD872F6}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Create AW_Sales_SalesTaxRate"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="6">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{5954EC7B-5461-483F-9E0E-EAD5187EB735}"
+          SQLTask:SqlStatementSource="&#xA;                        SET ANSI_NULLS ON&#xA;SET QUOTED_IDENTIFIER ON&#xA;GO&#xA;&#xA;-------------------------------------------------------------------&#xA;IF EXISTS (SELECT * from sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AW_Sales_SalesTaxRate]') AND type IN (N'U'))&#xA;DROP TABLE [dbo].[AW_Sales_SalesTaxRate]&#xA;GO&#xA;&#xA;CREATE TABLE [dbo].[AW_Sales_SalesTaxRate]&#xA;(&#xA;-- Columns Definition&#xA; [SalesTaxRateID] int NOT NULL &#xA;, [StateProvinceID] int NOT NULL &#xA;, [TaxType] tinyint NOT NULL &#xA;, [TaxRate] smallmoney NOT NULL &#xA;, [Name] nvarchar(50) NOT NULL &#xA;, [rowguid] uniqueidentifier NOT NULL &#xA;, [ModifiedDate] datetime NOT NULL &#xA;&#xA;-- Constraints&#xA;&#xA;)&#xA;ON &quot;default&quot;&#xA;WITH (DATA_COMPRESSION = NONE)&#xA;GO&#xA;&#xA;-------------------------------------------------------------------&#xA;&#xA;&#xA;                    " xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Create AW_Sales_SalesTerritory"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:DTSID="{632F67B0-88E8-4807-8E51-1B8E199CD8A0}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Create AW_Sales_SalesTerritory"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="7">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{5954EC7B-5461-483F-9E0E-EAD5187EB735}"
+          SQLTask:SqlStatementSource="&#xA;                        SET ANSI_NULLS ON&#xA;SET QUOTED_IDENTIFIER ON&#xA;GO&#xA;&#xA;-------------------------------------------------------------------&#xA;IF EXISTS (SELECT * from sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AW_Sales_SalesTerritory]') AND type IN (N'U'))&#xA;DROP TABLE [dbo].[AW_Sales_SalesTerritory]&#xA;GO&#xA;&#xA;CREATE TABLE [dbo].[AW_Sales_SalesTerritory]&#xA;(&#xA;-- Columns Definition&#xA; [TerritoryID] int NOT NULL &#xA;, [Name] nvarchar(50) NOT NULL &#xA;, [CountryRegionCode] nvarchar(3) NOT NULL &#xA;, [Group] nvarchar(50) NOT NULL &#xA;, [SalesYTD] money NOT NULL &#xA;, [SalesLastYear] money NOT NULL &#xA;, [CostYTD] money NOT NULL &#xA;, [CostLastYear] money NOT NULL &#xA;, [rowguid] uniqueidentifier NOT NULL &#xA;, [ModifiedDate] datetime NOT NULL &#xA;&#xA;-- Constraints&#xA;&#xA;)&#xA;ON &quot;default&quot;&#xA;WITH (DATA_COMPRESSION = NONE)&#xA;GO&#xA;&#xA;-------------------------------------------------------------------&#xA;&#xA;&#xA;                    " xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Create AW_Sales_SalesTerritoryHistory"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:DTSID="{60644334-1B63-4318-B70D-0289B4A4E19F}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Create AW_Sales_SalesTerritoryHistory"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2014; © 2014 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="8">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{5954EC7B-5461-483F-9E0E-EAD5187EB735}"
+          SQLTask:SqlStatementSource="&#xA;                        SET ANSI_NULLS ON&#xA;SET QUOTED_IDENTIFIER ON&#xA;GO&#xA;&#xA;-------------------------------------------------------------------&#xA;IF EXISTS (SELECT * from sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AW_Sales_SalesTerritoryHistory]') AND type IN (N'U'))&#xA;DROP TABLE [dbo].[AW_Sales_SalesTerritoryHistory]&#xA;GO&#xA;&#xA;CREATE TABLE [dbo].[AW_Sales_SalesTerritoryHistory]&#xA;(&#xA;-- Columns Definition&#xA; [BusinessEntityID] int NOT NULL &#xA;, [TerritoryID] int NOT NULL &#xA;, [StartDate] datetime NOT NULL &#xA;, [EndDate] datetime &#xA;, [rowguid] uniqueidentifier NOT NULL &#xA;, [ModifiedDate] datetime NOT NULL &#xA;&#xA;-- Constraints&#xA;&#xA;)&#xA;ON &quot;default&quot;&#xA;WITH (DATA_COMPRESSION = NONE)&#xA;GO&#xA;&#xA;-------------------------------------------------------------------&#xA;&#xA;&#xA;                    " xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+</DTS:Executable>

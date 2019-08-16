@@ -1,0 +1,15 @@
+<#@ template tier="20" #>
+<Biml xmlns="http://schemas.varigence.com/biml.xsd">
+  <Packages>
+    <Package Name="01_CreateStaging" ProtectionLevel="EncryptSensitiveWithUserKey">
+      <Tasks>
+        <# foreach (var tbl in RootNode.Tables) { #>
+
+        <ExecuteSQL Name="SQL CREATE <#=tbl.Name#>" ConnectionName="Target">
+          <DirectInput><#=tbl.GetDropAndCreateDdl()#></DirectInput>
+        </ExecuteSQL>
+        <# } #>
+      </Tasks>
+    </Package>
+  </Packages>
+</Biml>

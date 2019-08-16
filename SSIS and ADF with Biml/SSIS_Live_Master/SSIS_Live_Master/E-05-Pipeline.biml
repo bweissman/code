@@ -1,0 +1,72 @@
+﻿<#@ property name="tables" type="IEnumerable<AstTableNode>" #>
+{
+    "name": "CopyDataToTheCloud",
+    "properties": {
+        "description": "CopyDataToTheCloud",
+        "activities": [
+         <# var isFirst = true; foreach (var table in tables) { #>
+        <#=isFirst ? "" : ","#>
+          {
+                    "name": "CopyFromSQLtoBlob_<#=table.Schema.Name#>_<#=table.Name#>",
+                    "description": "Copy data from on-premise SQL server to blob",     
+                    "type": "CopyActivity",
+                    "inputs": [ {"name": "OnPremisesSqlServer_<#=table.Schema.Name#>_<#=table.Name#>_Dataset"} ],
+                    "outputs": [ {"name": "Blob_<#=table.Schema.Name#>_<#=table.Name#>_Dataset"} ],
+                    "transformation":
+                    {
+                        "source":
+                        {                               
+                            "type": "SqlSource",
+                            "sqlReaderQuery": "select * from <#=table.SchemaQualifiedName#>"
+                        },
+                        "sink":
+                        {
+                            "type": "BlobSink"
+                        }   
+                    },
+                    "Policy":
+                    {
+                        "concurrency": 3,
+                        "executionPriorityOrder": "NewestFirst",
+                        "style": "StartOfInterval",
+                        "retry": 0,
+                        "timeout": "01:00:00"
+                    }       
+
+                 },
+
+                {
+                    "name": "CopyFromBlobtoSQLAzure",
+                    "description": "Push data to Sql Azure",        
+                    "type": "CopyActivity",
+                    "inputs": [ {"name": "Blob_<#=table.Schema.Name#>_<#=table.Name#>_Dataset"} ],
+                    "outputs": [ {"name": "SqlAzure_<#=table.Schema.Name#>_<#=table.Name#>_Dataset"} ],
+                    "transformation":
+                    {
+                        "source":
+                        {                               
+                            "type": "BlobSource"
+                        },
+                        "sink":
+                        {
+                            "type": "SqlSink",
+                            "WriteBatchTimeout": "00:5:00",             
+                        }           
+                    },
+                    "Policy":
+                    {
+                        "concurrency": 3,
+                        "executionPriorityOrder": "NewestFirst",
+                        "style": "StartOfInterval",
+                        "retry": 2,
+                        "timeout": "02:00:00"
+                    }
+                 }
+        <# isFirst = false; } #>
+       
+        
+        ],
+        "start": "2014-05-01T00:00:00Z",
+        "end": "2014-05-05T00:00:00Z"
+    }
+}

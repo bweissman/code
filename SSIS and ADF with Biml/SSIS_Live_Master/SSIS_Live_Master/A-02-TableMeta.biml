@@ -1,0 +1,10 @@
+<Biml xmlns="http://schemas.varigence.com/biml.xsd">
+    <Tables>
+        <Table Name="MyTable" SchemaName="BimlDemo_Live.dbo">
+            <Columns>
+                <Column Name="Col_1"></Column>
+                <Column Name="Col_2" DataType="String" Length="10"/>
+            </Columns>
+        </Table>
+    </Tables>
+</Biml>

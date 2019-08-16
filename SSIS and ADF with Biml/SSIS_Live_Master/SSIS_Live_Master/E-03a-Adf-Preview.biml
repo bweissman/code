@@ -1,0 +1,20 @@
+﻿<# if (!IsBackgroundCompilation) { #>
+
+<# foreach (var table in importResult.TableNodes) { #>
+
+<# System.IO.File.WriteAllText(@"C:\Temp\BimlInTheCloud\ADF\OnPrem_" + table.Schema.Name + "_" + table.Name + ".json", CallBimlScript("OnPrem_DataSets.biml", table)); #>
+<# System.IO.File.WriteAllText(@"C:\Temp\BimlInTheCloud\ADF\Blob_" + table.Schema.Name + "_" + table.Name + ".json", CallBimlScript("Blob_DataSets.biml", table)); #>
+<# System.IO.File.WriteAllText(@"C:\Temp\BimlInTheCloud\ADF\SqlAzure_" + table.Schema.Name + "_" + table.Name + ".json", CallBimlScript("SqlAzure_DataSets.biml", table)); #>
+
+<# } #>
+
+<# System.IO.File.WriteAllText(@"C:\Temp\BimlInTheCloud\ADF\_Gateway.json", CallBimlScript("Gateway.json")); #>
+<# System.IO.File.WriteAllText(@"C:\Temp\BimlInTheCloud\ADF\_OnPrem_LinkedService.json", CallBimlScript("OnPrem_LinkedService.json")); #>
+<# System.IO.File.WriteAllText(@"C:\Temp\BimlInTheCloud\ADF\_Blob_LinkedService.json", CallBimlScript("Blob_LinkedService.json")); #>
+<# System.IO.File.WriteAllText(@"C:\Temp\BimlInTheCloud\ADF\_SqlAzure.json", CallBimlScript("SqlAzure_LinkedService.json")); #>
+
+<# System.IO.File.WriteAllText(@"C:\Temp\BimlInTheCloud\ADF\_Pipeline.json", CallBimlScript("Pipeline.biml", importResult.TableNodes)); #>
+<# } #>
+
+<Biml xmlns="http://schemas.varigence.com/biml.xsd">
+</Biml>

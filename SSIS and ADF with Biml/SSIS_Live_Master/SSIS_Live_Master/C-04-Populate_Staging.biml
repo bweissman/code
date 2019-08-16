@@ -1,0 +1,28 @@
+<#@ template tier="30" language="VB" optionexplicit="False" #>
+<Biml xmlns="http://schemas.varigence.com/biml.xsd">
+    <Packages>
+        <Package Name="02_Populate Tables" ConstraintMode="Parallel"  ProtectionLevel="EncryptSensitiveWithUserKey">
+            <Tasks>
+            <# for each tbl in RootNode.Tables  #>
+                <Container Name="Transfer <#=tbl.Schema.Name#>_<#=tbl.Name#>" ConstraintMode="Linear">
+                    <Tasks>
+                        <ExecuteSQL Name="Truncate" ConnectionName="Target">
+                            <DirectInput>truncate table <#=tbl.ScopedName#></DirectInput>
+                        </ExecuteSQL>
+                        <Dataflow Name="Copy <#=tbl.Schema.Name#>_<#=tbl.Name#>">
+                            <Transformations>
+                                <OleDbSource Name="SRC" ConnectionName="Source">
+                                    <DirectInput>SELECT * FROM <#=tbl.GetTag("SchemaQualifiedName")#></DirectInput>
+                                </OleDbSource>
+                                <OleDbDestination Name="Dest" ConnectionName="Target">
+                                    <TableOutput TableName="<#=tbl.ScopedName#>" />
+                                </OleDbDestination>
+                            </Transformations>
+                        </Dataflow>
+                    </Tasks>
+                </Container>
+            <# next #>
+            </Tasks>
+        </Package> 
+    </Packages>
+</Biml>

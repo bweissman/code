@@ -1,0 +1,21 @@
+<#@ template tier="10" language="VB" optionexplicit="False" #>
+<Biml xmlns="http://schemas.varigence.com/biml.xsd">
+    <Tables>
+        <#  dim AW =  RootNode.Connections("Source")
+            Dim Tables as new List(of String)
+            Tables.add ("PersonPhone")
+            dim importResult as Importresults = AW.GetDatabaseSchema(nothing,Tables,ImportOptions.ExcludeForeignKey or ImportOptions.ExcludeIdentity) 
+            for each tbl in importResult.TableNodes #>
+        <Table Name="AW_<#=tbl.Schema.Name#>_<#=tbl.Name#>" SchemaName="BimlDemo_Live.dbo">
+            <Columns>
+                <#= tbl.columns.getbiml #>
+            </Columns>
+             <Annotations>
+                <Annotation AnnotationType="Tag" Tag="SchemaQualifiedName">
+                    <#=tbl.SchemaQualifiedName #>
+                </Annotation>
+            </Annotations>
+        </Table>
+        <#  next #>
+    </Tables>
+</Biml>
