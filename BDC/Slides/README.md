@@ -1,4 +1,3 @@
 # Big Data Clusters
-## Demo Notebooks
-### Slides
+## Slides
 
