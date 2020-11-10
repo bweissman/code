@@ -1,6 +1,6 @@
 #!/bin/bash
 set -Eeuo pipefail
-export DOCKER_TAG="2019-CU6-ubuntu-16.04"
+export DOCKER_TAG="2019-CU8-ubuntu-16.04"
 IMAGES=(
 	mssql-app-service-proxy
         mssql-control-watchdog
@@ -17,7 +17,6 @@ IMAGES=(
         mssql-monitor-influxdb
         mssql-monitor-kibana
         mssql-monitor-telegraf
-        mssql-security-domainctl
         mssql-security-knox
         mssql-security-support
         mssql-server-controller
