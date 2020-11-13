@@ -63,8 +63,8 @@ echo net.ipv6.conf.lo.disable_ipv6=1 | sudo tee -a /etc/sysctl.conf
 sudo sysctl net.bridge.bridge-nf-call-iptables=1
 for i in $(seq 1 $PV_COUNT); do
   vol="vol$i"
-  sudo mkdir -p /azurearc/local-storage/$vol
-  sudo mount --bind /azurearc/local-storage/$vol /azurearc/local-storage/$vol
+  sudo mkdir -p /bdc/local-storage/$vol
+  sudo mount --bind /bdc/local-storage/$vol /bdc/local-storage/$vol
 done
 sudo kubeadm init --pod-network-cidr=10.244.0.0/16 --kubernetes-version=$KUBE_VERSION
 mkdir -p $HOME/.kube
