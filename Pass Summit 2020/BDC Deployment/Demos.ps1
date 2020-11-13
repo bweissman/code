@@ -69,7 +69,7 @@ azdata bdc endpoint list
 azdata bdc endpoint list -o table
 
 # Which Version are we running?
-sqlcmd -S 192.168.1.4,31433 -U admin -Q "SELECT @@VERSION" -P Passw0rd
+sqlcmd -S 192.168.1.4,31433 -U admin -Q "SELECT @@VERSION" -P <pw>
 
 # How about an upgrade to CU8...
 # We can even do that from here!
@@ -77,4 +77,4 @@ azdata bdc upgrade -n mssql-cluster -t 2019-CU8-ubuntu-16.04 -r mcr.microsoft.co
 # Spoiler: This will take about 30 minutes so we may not get to see the end of it :)
 
 # Which Version are we running now?
-sqlcmd -S 192.168.1.4,31433 -U admin -Q "SELECT @@VERSION" -P Passw0rd
+sqlcmd -S 192.168.1.4,31433 -U admin -Q "SELECT @@VERSION" -P <pw>
