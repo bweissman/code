@@ -38,7 +38,6 @@ az arcdata dc status show --k8s-namespace arc --use-k8s
 
 # Create MI
 az sql mi-arc create -n mi-1 --k8s-namespace arc --use-k8s `
-        --storage-class-backups local-storage `
         --storage-class-data local-storage `
         --storage-class-datalogs local-storage `
         --storage-class-logs local-storage `
@@ -61,7 +60,7 @@ az sql mi-arc create -n mi-2 --k8s-namespace arc --use-k8s --replicas 2 --dev
 $ENV:AZDATA_PASSWORD | Set-Clipboard
 
 # Backups
-kubectl edit sqlmi mi-1 -n arc
+# az sql midb-arc restore --managed-instance mi-1 --name BackupDemo --dest-name RestoreDemo --k8s-namespace arc --time $PointInTime --use-k8s
 
 # Updates: 
 az arcdata dc list-upgrades -k arc
