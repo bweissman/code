@@ -1,0 +1,21 @@
+// Place your key bindings in this file to override the defaultsauto[]
+[
+    {
+        "key": "shift+f8",
+        "command": "-editor.action.marker.prevInFiles",
+        "when": "editorFocus"
+    },
+    {
+        "key": "shift+f8",
+        "command": "workbench.action.terminal.runSelectedText"
+    },
+    {
+        "key": "ctrl+oem_102",
+        "command": "workbench.action.terminal.focus"
+    },
+    {
+        "key": "ctrl+oem_102",
+        "command": "workbench.action.focusActiveEditorGroup",
+        "when": "terminalFocus"
+    }
+]
