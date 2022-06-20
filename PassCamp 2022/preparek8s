@@ -1,0 +1,64 @@
+#!/bin/bash
+set -Eeuo pipefail
+export DEBIAN_FRONTEND=noninteractive
+export OSCODENAME=$(lsb_release -cs)
+KUBE_DPKG_VERSION=1.24.1-00
+KUBE_VERSION=1.24.1
+TIMEOUT=600
+RETRY_INTERVAL=5
+export PV_COUNT="80"
+sudo apt-get update -q
+sudo apt --yes install \
+    software-properties-common \
+    apt-transport-https \
+    ca-certificates \
+    curl
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository \
+    "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+sudo apt update -q
+rm -f -r setupscript
+mkdir -p setupscript
+cd setupscript/
+sudo swapoff -a
+sudo sed -i '/swap/s/^\(.*\)$/#\1/g' /etc/fstab
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+cat <<EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
+deb http://apt.kubernetes.io/ kubernetes-xenial main
+EOF
+sudo apt-get update -q
+sudo apt-get install -y containerd
+sudo rm /etc/containerd/config.toml
+sudo systemctl restart containerd
+sudo apt-get install -q -y ebtables ethtool
+sudo apt-get install -q -y apt-transport-https
+sudo tee /etc/docker/daemon.json <<EOF
+{
+  "exec-opts": ["native.cgroupdriver=systemd"],
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "100m"
+  },
+  "storage-driver": "overlay2"
+}
+EOF
+sudo apt-get install -q -y kubelet=$KUBE_DPKG_VERSION kubeadm=$KUBE_DPKG_VERSION kubectl=$KUBE_DPKG_VERSION
+sudo apt-mark hold kubelet kubeadm kubectl
+curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get-helm-3 | sudo bash
+. /etc/os-release
+if [ "$UBUNTU_CODENAME" == "bionic" ]; then
+    modprobe br_netfilter
+fi
+sudo sysctl -w net.ipv6.conf.all.disable_ipv6=1
+sudo sysctl -w net.ipv6.conf.default.disable_ipv6=1
+sudo sysctl -w net.ipv6.conf.lo.disable_ipv6=1
+echo net.ipv6.conf.all.disable_ipv6=1 | sudo tee -a /etc/sysctl.conf
+echo net.ipv6.conf.default.disable_ipv6=1 | sudo tee -a /etc/sysctl.conf
+echo net.ipv6.conf.lo.disable_ipv6=1 | sudo tee -a /etc/sysctl.conf
+sudo sysctl net.bridge.bridge-nf-call-iptables=1
+sudo apt install -y nfs-common
+for i in $(seq 1 $PV_COUNT); do
+  vol="vol$i"
+  sudo mkdir -p /azurearc/local-storage/$vol
+  sudo mount --bind /azurearc/local-storage/$vol /azurearc/local-storage/$vol
+done
