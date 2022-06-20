@@ -1,0 +1,6 @@
+{
+    "workbench.colorTheme": "Default Light+",
+    "security.workspace.trust.untrustedFiles": "open",
+    "editor.minimap.enabled": false,
+    "security.workspace.trust.enabled": false
+}
