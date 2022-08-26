@@ -48,7 +48,7 @@ az arcdata dc create --connectivity-mode Indirect --name arc-dc-kubeadm --k8s-na
     --subscription $Subscription `
     -g $RG -l eastus --storage-class local-storage `
     --profile-name azure-arc-kubeadm --infrastructure onpremises --use-k8s
-
+  
 # Check ADS while running
 
 # This created a new Namespace for us
@@ -71,9 +71,25 @@ az sql mi-arc create -n $gpinstance --k8s-namespace $k8sNamespace  --use-k8s `
 --storage-class-data local-storage `
 --storage-class-datalogs local-storage `
 --storage-class-logs local-storage `
+--storage-class-backups nfs-storage `
 --cores-limit 4 --cores-request 2 `
 --memory-limit 8Gi --memory-request 4Gi `
 --tier GeneralPurpose --dev
+
+# Check the pods that got created
+kubectl get pods -n $k8sNamespace 
+
+# Function to reliably get VM IPs
+function GetIP {
+    param (
+        $VMName
+    )
+    $MacAddr=(Get-VMNetworkAdapter -VMName $VMName | Select -ExpandProperty MacAddress).Insert(2,"-").Insert(5,"-").Insert(8,"-").Insert(11,"-").Insert(14,"-")
+    $IP=(Get-NetNeighbor | where LinkLayerAddress -eq $MacAddr | Select -ExpandProperty IPAddress)
+    $IP
+}
+
+ssh -t ("demo@" + (GetIP('k8s-nfs'))) 'ls -l /srv/exports/volumes/dynamic && ls -l /srv/exports/volumes/dynamic/*'
 
 # Everything in Arc-enabled Data Services is also Kubernetes native!
 kubectl edit sqlmi $gpinstance -n $k8sNamespace
@@ -130,11 +146,7 @@ $PointInTime=(Get-Date).AddSeconds(-120).ToString("yyyy-MM-ddTHH:mm:ssZ")
 $PointInTime
 
 az sql midb-arc restore --managed-instance $gpinstance --name AdventureWorks2019 --dest-name AdventureWorks2019_Restore `
-     --k8s-namespace arc --time $PointInTime --use-k8s
-
-kubectl get SqlManagedInstanceRestoreTask -n $k8sNamespace
-
-sqlcmd -S $SQLEndpoint -U $ENV:AZDATA_USERNAME  -Q "SELECT Name FROM sys.Databases"
+     --k8s-namespace arc --time $PointInTime --use-k8s --dry-run
 
 # Connect to Azure Monitor:
 # Create Service Principal
