@@ -1,0 +1,125 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+ name: mssql
+spec:
+ replicas: 1
+ serviceName: "mssql"
+ selector:
+  matchLabels:
+   app: mssql
+ template:
+  metadata:
+   labels:
+    app: mssql
+  spec:
+   securityContext:
+     fsGroup: 10001
+   containers:
+    - name: mssql
+      image: 'mcr.microsoft.com/mssql/server:2019-latest'
+      ports:
+        - containerPort: 1433
+      env:
+      - name: ACCEPT_EULA
+        value: "Y" 
+      - name: MSSQL_SA_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: mssql
+            key: MSSQL_SA_PASSWORD
+      - name: MSSQL_PID
+        value: Evaluation
+      - name: MSSQL_AGENT_ENABLED
+        value: "true"
+      volumeMounts:
+      - name: mssqldb
+        mountPath: /var/opt/mssql
+      - name: data
+        mountPath: /var/opt/mssql/userdata
+      - name: logs
+        mountPath: /var/opt/mssql/userlogs
+      - name: mssqlconf
+        mountPath: /var/opt/mssql/mssql.conf
+        subPath: mssql.conf
+   volumes:    
+   - name: mssqldb
+     persistentVolumeClaim:
+       claimName: sql-ad-main
+   - name: data
+     persistentVolumeClaim:
+       claimName: sql-ad-data 
+   - name: logs
+     persistentVolumeClaim:
+       claimName: sql-ad-logs
+   - name: mssqlconf
+     configMap:
+       name: mssqlconf
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mssql
+spec:
+  type: LoadBalancer
+  ports:
+  - name: sql
+    protocol: TCP
+    port: 1433
+    targetPort: 1433
+  selector:
+    statefulset.kubernetes.io/pod-name: mssql-0
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sql-ad-main
+spec:
+  storageClassName: nfs-storage
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 35Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sql-ad-data
+spec:
+  storageClassName: nfs-storage
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 35Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sql-ad-logs
+spec:
+  storageClassName: nfs-storage
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 35Gi
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mssqlconf
+data:
+  mssql.conf: |
+    [filelocation]
+    defaultdatadir = /var/opt/mssql/userdata
+    defaultlogdir = /var/opt/mssql/userlog
+---
+apiVersion: v1
+data:
+  MSSQL_SA_PASSWORD: UGFzc3cwcmQ=
+kind: Secret
+metadata:
+  name: mssql
+type: Opaque
