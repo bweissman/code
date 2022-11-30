@@ -1,0 +1,44 @@
+apiVersion: arcdata.microsoft.com/v5
+kind: DataController
+metadata:
+  name: arc-dc
+spec:
+  credentials:
+    dockerRegistry: arc-private-registry
+    serviceAccount: sa-arc-controller
+  docker:
+    imagePullPolicy: IfNotPresent
+    imageTag: v1.13.0_2022-11-08
+    registry: mcr.microsoft.com
+    repository: arcdata
+  infrastructure: onpremises
+  security:
+    allowDumps: true
+    allowNodeMetricsCollection: true
+    allowPodMetricsCollection: true
+  services:
+  - name: controller
+    port: 30080
+    serviceType: LoadBalancer
+  settings:
+    ElasticSearch:
+      vm.max_map_count: "-1"
+    azure:
+      connectionMode: indirect
+      location: eastus
+      resourceGroup: ArcDataResources
+      subscription: 92cc49b9-95ca-4935-86e1-1545d29bc50b
+    controller:
+      displayName: arc-dc
+      enableBilling: true
+      logs.rotation.days: "7"
+      logs.rotation.size: "5000"
+  storage:
+    data:
+      accessMode: ReadWriteOnce
+      className: nfs-storage
+      size: 15Gi
+    logs:
+      accessMode: ReadWriteOnce
+      className: nfs-storage
+      size: 10Gi

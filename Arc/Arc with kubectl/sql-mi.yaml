@@ -1,0 +1,39 @@
+apiVersion: sql.arcdata.microsoft.com/v7
+kind: SqlManagedInstance
+metadata:
+  name: sql-mi-1
+spec:
+  dev: true
+  licenseType: LicenseIncluded
+  tier: GeneralPurpose 
+  security:
+    adminLoginSecret: mi-login-secret
+  scheduling:
+    default:
+      resources:
+        limits:
+          cpu: "2"
+          memory: 4Gi
+        requests:
+          cpu: "1"
+          memory: 2Gi
+  services:
+    primary:
+      type: LoadBalancer
+  storage:
+    backups:
+      volumes:
+      - className: nfs-storage
+        size: 5Gi
+    data:
+      volumes:
+      - className: local-storage 
+        size: 5Gi
+    datalogs:
+      volumes:
+      - className: local-storage
+        size: 5Gi
+    logs:
+      volumes:
+      - className: local-storage
+        size: 5Gi
