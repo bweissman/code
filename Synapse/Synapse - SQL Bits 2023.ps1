@@ -45,9 +45,6 @@ az synapse sql pool create --name $poolname `
 az synapse workspace firewall-rule create --name allowAll --workspace-name $SynapseName `
     --resource-group $RG --start-ip-address 0.0.0.0 --end-ip-address 255.255.255.255
 
-# Create a Master Key
-sqlcmd -d $poolname -I -Q "CREATE MASTER KEY"
-
 # Pause the pool (if you don't want to use it immediately)
 az synapse sql pool pause --name $poolname --workspace-name $SynapseName --resource-group $RG
 
@@ -83,6 +80,9 @@ $env:sqlcmdpassword = $password
 
 # The new one is our current context
 .\sqlcmd\sqlcmd query "SELECT @@ServerName"
+
+# While we're at it... Create a Master Key on our synapse pool
+.\sqlcmd\sqlcmd query "CREATE MASTER KEY" --database $poolname
 
 # And we can even simply add it to ADS
 .\sqlcmd\sqlcmd open ads
