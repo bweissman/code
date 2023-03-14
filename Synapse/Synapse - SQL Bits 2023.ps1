@@ -51,11 +51,8 @@ az synapse sql pool pause --name $poolname --workspace-name $SynapseName --resou
 # Resume the pool
 az synapse sql pool resume --name $poolname --workspace-name $SynapseName --resource-group $RG
 
-# Let's install the IR Runtime on our Windows Box...
-# https://www.microsoft.com/en-us/download/details.aspx?id=39717
-mstsc /v:Winserver.bwdemo.io /w:1280 /h:720
-
 # Let us also grab the new sqlcmd
+# http://aka.ms/sqlcmd
 $URL=(((Invoke-WebRequest https://api.github.com/repos/microsoft/go-sqlcmd/releases/latest).Content | ConvertFrom-Json).assets `
             | Where-Object {$_.content_type -eq 'application/zip'} |Where-Object { $_.name -like '*windows-x64*'}).browser_download_url
 $URL
@@ -104,6 +101,12 @@ $env:sqlcmdpassword = $password
 # And prepare the rest in the Portal...
 Start-Process ("https://portal.azure.com/#@" + (az account show --query tenantId -o tsv) + "/resource" + (az group show -n $RG --query id -o tsv))
 
+# We need to configure the runtime in our Windows Server
+# https://www.microsoft.com/en-us/download/details.aspx?id=39717
+mstsc /v:Winserver.bwdemo.io /w:1280 /h:720
+
+.\sqlcmd\sqlcmd config use-context synapse
+.\sqlcmd\sqlcmd query "SELECT NAME FROM sys.tables" --database $poolname
 
 # When done, tidy up...
 az group delete -n $RG --yes

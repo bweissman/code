@@ -63,6 +63,7 @@ kubectl cp AdventureWorks2019.bak mi-bc-0:/var/opt/mssql/data/AdventureWorks2019
 
 
 # Let us also grab the new sqlcmd
+# http://aka.ms/sqlcmd
 $URL=(((Invoke-WebRequest https://api.github.com/repos/microsoft/go-sqlcmd/releases/latest).Content | ConvertFrom-Json).assets `
             | Where-Object {$_.content_type -eq 'application/zip'} |Where-Object { $_.name -like '*windows-x64*'}).browser_download_url
 $URL
